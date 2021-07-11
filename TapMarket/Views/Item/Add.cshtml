@@ -1,52 +1,59 @@
-﻿
-<div class="row">
-    <div class="offset-md-2 col-md-8 col-sm-12">
-        <h2 class="heading-margin"> Create new listing </h2>
-        <form>
+﻿@model AddItemFormModel
 
-            <div class="form-group">
-                <label>Name</label>
-                <input class="form-control" placeholder="Example: Brand new iPhone 12">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-md-8 col-sm-12">
+                <h2 class="heading-margin"> Create new listing </h2>
+
+                <form method="post">
+                    <div class="form-group">
+                        <label asp-for="Title">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Example: Brand new iPhone 12">
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CategoryId">Category</label>
+                        <select asp-for="CategoryId" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>RealEstate</option>
+                            <option>Vehicles</option>
+                            <option>Electronics</option>
+                            <option>Fashion</option>
+                            <option>Home</option>
+                            <option>Tourism</option>
+                            <option>Jobs</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ImageUrl">Image URL</label>
+                        <input asp-for="ImageUrl" class="form-control" placeholder="Enter URL here">
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" rows="5" class="form-control" placeholder="This item is..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Condition">Condition</label>
+                        <select asp-for="Condition" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>Used</option>
+                            <option>New</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" class="form-control" placeholder="0">
+                    </div>
+
+                    <input class="btn btn-primary float-left" type="submit" value="Publish">
+                   
+
+                </form>
             </div>
-
-            <div class="form-group">
-                <label>Category</label>
-                <select class="form-control">
-                    <option>RealEstate</option>
-                    <option>Vehicles</option>
-                    <option>Electronics</option>
-                    <option>Fashion</option>
-                    <option>Home</option>
-                    <option>Tourism</option>
-                    <option>Jobs</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Image URL</label>
-                <input class="form-control" placeholder="Enter URL here">
-            </div>
-
-            <div class="form-group">
-                <label>Description</label>
-                <textarea rows="5" class="form-control" placeholder="This item is..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Price</label>
-                <input class="form-control" placeholder="0">
-            </div>
-
-            <div class="form-group">
-                <label>Condition</label>
-                <select class="form-control">
-                    <option>Used</option>
-                    <option>New</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Publish</button>
-
-        </form>
+        </div>
     </div>
-</div>

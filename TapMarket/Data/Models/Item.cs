@@ -1,6 +1,7 @@
 ﻿namespace TapMarket.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using TapMarket.Data.Enums;
 
     using static DataConstants;
@@ -19,10 +20,10 @@
 
         public ConditionType Condition { get; set; }
 
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
         [Required]
-        //[Display(Name = "Image URL")]
         public string ImageUrl { get; set; }
 
         public int CategoryId { get; set; }

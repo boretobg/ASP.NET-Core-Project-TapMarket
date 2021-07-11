@@ -18,6 +18,13 @@ a {
   border-color: #1861ac;
 }
 
+.btn-primary-center {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+    text-align: center;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
@@ -78,4 +85,8 @@ body {
 
 .form-border {
     border: 1px solid #FFFFFF;
+}
+
+.wrapper {
+    text-align: center;
 }
