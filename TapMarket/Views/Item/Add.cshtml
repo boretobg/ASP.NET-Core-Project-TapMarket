@@ -8,21 +8,17 @@
                 <form method="post">
                     <div class="form-group">
                         <label asp-for="Title">Title</label>
-                        <input asp-for="Title" class="form-control" placeholder="Example: Brand new iPhone 12">
+                        <input asp-for="Title" class="form-control" placeholder="Tell us what you're selling">
                     </div>
 
                     <div class="form-group">
                         <label asp-for="CategoryId">Category</label>
                         <select asp-for="CategoryId" class="form-control">
                             <option selected>Choose...</option>
-                            <option>RealEstate</option>
-                            <option>Vehicles</option>
-                            <option>Electronics</option>
-                            <option>Fashion</option>
-                            <option>Home</option>
-                            <option>Tourism</option>
-                            <option>Jobs</option>
-                            <option>Other</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
                         </select>
                     </div>
 

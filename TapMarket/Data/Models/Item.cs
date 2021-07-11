@@ -2,7 +2,6 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using TapMarket.Data.Enums;
 
     using static DataConstants;
 
@@ -18,7 +17,7 @@
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
-        public ConditionType Condition { get; set; }
+        public string Condition { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
