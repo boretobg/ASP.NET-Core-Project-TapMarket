@@ -1,5 +1,6 @@
 ﻿namespace TapMarket.Data.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +17,8 @@
         [Required]
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string Condition { get; set; }
 

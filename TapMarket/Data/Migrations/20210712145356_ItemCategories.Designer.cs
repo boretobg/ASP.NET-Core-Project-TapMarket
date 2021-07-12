@@ -10,7 +10,7 @@ using TapMarket.Data;
 namespace TapMarket.Data.Migrations
 {
     [DbContext(typeof(TapMarketDbContext))]
-    [Migration("20210711170115_ItemCategories")]
+    [Migration("20210712145356_ItemCategories")]
     partial class ItemCategories
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,7 +238,7 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Item", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -248,8 +248,11 @@ namespace TapMarket.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Condition")
-                        .HasColumnType("int");
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -265,14 +268,14 @@ namespace TapMarket.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Listings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -326,10 +329,10 @@ namespace TapMarket.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Item", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.HasOne("TapMarket.Data.Models.Category", "Category")
-                        .WithMany("Items")
+                        .WithMany("Listings")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -339,7 +342,7 @@ namespace TapMarket.Data.Migrations
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Listings");
                 });
 #pragma warning restore 612, 618
         }
