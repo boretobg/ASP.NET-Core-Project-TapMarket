@@ -26,7 +26,7 @@ namespace TapMarket.Data
             base.OnModelCreating(builder);
             builder.Entity<Listing>()
                 .Property(p => p.Price)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

@@ -15,8 +15,6 @@
 
             var data = scopedService.ServiceProvider.GetService<TapMarketDbContext>();
 
-            data.Database.EnsureDeleted();
-            //data.Database.EnsureCreated();
             data.Database.Migrate();
 
             SeedCategories(data);
