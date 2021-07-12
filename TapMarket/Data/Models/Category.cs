@@ -13,6 +13,6 @@
         [MaxLength(CategoryMaxLength)]
         public string Name { get; set; }
 
-        public IEnumerable<Item> Items { get; set; }
+        public IEnumerable<Listing> Listings { get; set; }
     }
 }

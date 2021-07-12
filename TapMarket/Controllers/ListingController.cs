@@ -4,33 +4,37 @@
     using System.Collections.Generic;
     using System.Linq;
     using TapMarket.Data;
-    using TapMarket.Models.Item;
+    using TapMarket.Models.Listing;
 
-    public class ItemController : Controller
+    public class ListingController : Controller
     {
         private readonly TapMarketDbContext data;
 
-        public ItemController(TapMarketDbContext data) 
+        public ListingController(TapMarketDbContext data) 
             => this.data = data;
 
-
-
         public IActionResult Add()
-            => View(new AddItemFormModel
+            => View(new AddListingFormModel
             {
                 Categories = this.GetCategories()
             });
 
         [HttpPost]
-        public IActionResult Add(AddItemFormModel item)
+        public IActionResult Add(AddListingFormModel item)
+        {
+            return Redirect("/Listing/CreatedListing");
+        }
+
+        public IActionResult CreatedListing()
         {
             return View();
         }
 
-        private IEnumerable<ItemCategoryViewModel> GetCategories()
+
+        private IEnumerable<ListingCategoryViewModel> GetCategories()
          => this.data
             .Categories
-            .Select(c => new ItemCategoryViewModel
+            .Select(c => new ListingCategoryViewModel
             {
                 Id = c.Id,
                 Name = c.Name

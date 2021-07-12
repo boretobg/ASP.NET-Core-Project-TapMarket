@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TapMarket.Models.Item
+namespace TapMarket.Models.Listing
 {
-    public class AddItemFormModel
+    public class AddListingFormModel
     {
         public int Id { get; init; }
 
@@ -17,6 +17,6 @@ namespace TapMarket.Models.Item
         public string Condition { get; init; }
 
         public int CategoryId { get; init; }
-        public IEnumerable<ItemCategoryViewModel> Categories { get; set; }
+        public IEnumerable<ListingCategoryViewModel> Categories { get; set; }
     }
 }

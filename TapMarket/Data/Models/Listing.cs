@@ -5,7 +5,7 @@
 
     using static DataConstants;
 
-    public class Item
+    public class Listing
     {
         public int Id { get; init; }
 

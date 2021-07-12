@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TapMarket.Data.Models;
 
 namespace TapMarket.Data
@@ -14,20 +11,20 @@ namespace TapMarket.Data
         {
         }
 
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Listing> Items { get; set; }
         public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
-                .Entity<Item>()
+                .Entity<Listing>()
                 .HasOne(c => c.Category)
-                .WithMany(c => c.Items)
+                .WithMany(c => c.Listings)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
            
             base.OnModelCreating(builder);
-            builder.Entity<Item>()
+            builder.Entity<Listing>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,4)");
         }
