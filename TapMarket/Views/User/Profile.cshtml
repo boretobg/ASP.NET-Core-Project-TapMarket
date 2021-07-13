@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <img width="100" src="imgs/publisher.png" />
+                                    <img width="200" src="~/imgs/profile.jpg" />
                                 </center>
                             </div>
                         </div>
@@ -26,35 +26,34 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Publisher ID</label>
+                                <label> <b>Publisher ID </b></label>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
-                                        <asp:Button class="btn btn-primary" ID="Button1" runat="server" Text="Go" />
+                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"> id here</asp:TextBox>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <label>Publisher Name</label>
+                                <label> <b> Publisher Name </b> </label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Name"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Name"> Borislav Borislavov </asp:TextBox>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">
-                                <asp:Button ID="Button2" class="btn btn-lg btn-block btn-success" runat="server" Text="Add" />
+                                <asp:Button ID="Button2" class="btn btn-lg btn-block btn-success" runat="server" Text="Add"> Add </asp:Button>
                             </div>
                             <div class="col-4">
-                                <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update" />
+                                <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update"> Update </asp:Button>
                             </div>
                             <div class="col-4">
-                                <asp:Button ID="Button4" class="btn btn-lg btn-block btn-danger" runat="server" Text="Delete" />
+                                <asp:Button ID="Button4" class="btn btn-lg btn-block btn-danger" runat="server" Text="Delete"> Delete </asp:Button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a href="homepage.aspx"><< Back to Home</a><br>
+                <a asp-controller="Home" asp-action="Index"><< Back to Home</a><br>
                 <br>
             </div>
             <div class="col-md-7">
@@ -63,7 +62,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4>Publisher List</h4>
+                                    <h4> <b> Publisher Listings </b></h4>
                                 </center>
                             </div>
                         </div>
