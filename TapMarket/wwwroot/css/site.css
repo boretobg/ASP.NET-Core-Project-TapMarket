@@ -107,3 +107,11 @@ body {
 #footer2 {
     background: #531f00;
 }
+
+* {
+    border: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+

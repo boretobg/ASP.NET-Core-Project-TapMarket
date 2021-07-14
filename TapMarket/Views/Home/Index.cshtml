@@ -4,5 +4,40 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <form class="display-4">
+        <input type="search" name="search">
+        <button type="submit" >
+            <span> Search </span>
+        </button>
+    </form>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var listing in Model)
+                {
+                    <tr>
+                        <th> <img src="@listing.ImageUrl" width="150" /> </th>
+                        <th scope="row"> @listing.Title </th>
+                        <th> @listing.Price </th>
+                        <th>
+                            <asp:Button ID="Button4" class="btn btn-lg btn-block btn-danger" runat="server" Text="Delete"> Delete </asp:Button>
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
