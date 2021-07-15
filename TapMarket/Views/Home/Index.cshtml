@@ -6,38 +6,27 @@
     <h1 class="display-4">Welcome</h1>
     <form class="display-4">
         <input type="search" name="search">
-        <button type="submit" >
-            <span> Search </span>
+        <button class="btn-light" type="submit">
+            <span style="font-size: 40px; text-align: center;"> Search </span>
         </button>
     </form>
+
+    <h2 style="margin-top:70px">Some recent listings</h2>
 </div>
 
 <br />
 
-<div class="row">
-    <div class="col">
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Image</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Option</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var listing in Model)
-                {
-                    <tr>
-                        <th> <img src="@listing.ImageUrl" width="150" /> </th>
-                        <th scope="row"> @listing.Title </th>
-                        <th> @listing.Price </th>
-                        <th>
-                            <asp:Button ID="Button4" class="btn btn-lg btn-block btn-danger" runat="server" Text="Delete"> Delete </asp:Button>
-                        </th>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+
+<div class="card-deck">
+    @foreach (var listing in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img width="277" height="180" src="@listing.ImageUrl" alt="Listing image">
+            <div class="card-body">
+                <h5 class="card-title">@listing.Title</h5>
+                <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>
+                <a href="#" class="btn btn-primary">Check out</a>
+            </div>
+        </div>
+    }
 </div>
