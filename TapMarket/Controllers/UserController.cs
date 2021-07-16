@@ -26,5 +26,7 @@
 
             return View(listings);
         }
+
+        public IActionResult EditProfile() => View();
     }
 }

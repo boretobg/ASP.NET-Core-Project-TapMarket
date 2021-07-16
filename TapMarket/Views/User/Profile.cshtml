@@ -29,7 +29,7 @@
                                 <label> <b>Publisher ID </b></label>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"> id here</asp:TextBox>
+                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"> 1 </asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -39,9 +39,15 @@
                                     <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Name"> Borislav Borislavov </asp:TextBox>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
+                                <label> <b> Publisher Address </b> </label>
                                 <div class="form-group">
-                                    <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Edit"> Edit </asp:Button>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Address"> Vidin Hristo Botev </asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <a asp-controller="User" asp-action="EditProfile" class="btn btn-lg btn-block btn-warning">Edit profile</a>
                                 </div>
                             </div>
                         </div>
