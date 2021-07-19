@@ -21,14 +21,22 @@ namespace TapMarket
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TapMarketDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            services
+                .AddDbContext<TapMarketDbContext>(options => options
+                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services
+                .AddDatabaseDeveloperPageExceptionFilter();
+
+            services
+                .AddDefaultIdentity<IdentityUser>(options =>
+                    {
+                        options.Password.RequireNonAlphanumeric = false;
+                    })
                 .AddEntityFrameworkStores<TapMarketDbContext>();
-            services.AddControllersWithViews();
+
+            services
+                .AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -45,21 +53,20 @@ namespace TapMarket
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
+            app
+                .UseHttpsRedirection()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
+                    endpoints.MapRazorPages();
+                });
         }
     }
 }

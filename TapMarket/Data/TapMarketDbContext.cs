@@ -24,9 +24,10 @@ namespace TapMarket.Data
                 .OnDelete(DeleteBehavior.Restrict);
            
             base.OnModelCreating(builder);
+
             builder.Entity<Listing>()
                 .Property(p => p.Price)
-                .HasColumnType("decimal(18,2)");
+                .HasColumnType("decimal(18,0)");
         }
     }
 }

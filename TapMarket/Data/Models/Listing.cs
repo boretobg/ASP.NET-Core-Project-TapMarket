@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static DataConstants;
+    using static DataConstants.Listing;
 
     public class Listing
     {
@@ -20,9 +20,10 @@
 
         public DateTime CreatedOn { get; set; }
 
+        [Required]
         public string Condition { get; set; }
 
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 0)")]
         public decimal Price { get; set; }
 
         [Required]
@@ -30,5 +31,8 @@
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }
