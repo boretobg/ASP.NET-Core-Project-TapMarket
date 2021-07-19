@@ -5,11 +5,12 @@
     using TapMarket.Data;
     using TapMarket.Models.Listing;
 
-    public class UserController : Controller
+    public class CustomerController : Controller
     {
         private readonly TapMarketDbContext data;
 
-        public UserController(TapMarketDbContext data) => this.data = data;
+        public CustomerController(TapMarketDbContext data) 
+            => this.data = data;
 
         public IActionResult Profile()
         {
@@ -26,7 +27,5 @@
 
             return View(listings);
         }
-
-        public IActionResult EditProfile() => View();
     }
 }

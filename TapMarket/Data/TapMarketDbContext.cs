@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TapMarket.Data.Models;
 
@@ -13,6 +14,7 @@ namespace TapMarket.Data
 
         public DbSet<Listing> Listings { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,12 +24,12 @@ namespace TapMarket.Data
                 .WithMany(c => c.Listings)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
-           
-            base.OnModelCreating(builder);
 
             builder.Entity<Listing>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,0)");
+
+            base.OnModelCreating(builder);
         }
     }
 }

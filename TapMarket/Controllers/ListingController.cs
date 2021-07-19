@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using TapMarket.Data;
     using TapMarket.Data.Models;
     using TapMarket.Models.Listing;

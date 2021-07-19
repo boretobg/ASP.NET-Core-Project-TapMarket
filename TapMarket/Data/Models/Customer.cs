@@ -1,6 +1,5 @@
 ﻿namespace TapMarket.Data.Models
 {
-    using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -8,6 +7,7 @@
 
     public class Customer
     {
+        [Required]
         public int Id { get; init; }
 
         [Required]
@@ -22,11 +22,6 @@
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        public string UserId { get; init; }
-
-        public virtual IdentityUser User { get; init; }
-
-        public IEnumerable<Listing> Listings { get; set; } = new HashSet<Listing>();
+        public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
     }
 }

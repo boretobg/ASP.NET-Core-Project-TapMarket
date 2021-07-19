@@ -257,15 +257,9 @@ namespace TapMarket.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Customer");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
@@ -285,7 +279,7 @@ namespace TapMarket.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -365,17 +359,6 @@ namespace TapMarket.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.HasOne("TapMarket.Data.Models.Category", "Category")
@@ -384,15 +367,11 @@ namespace TapMarket.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
+                    b.HasOne("TapMarket.Data.Models.Customer", null)
                         .WithMany("Listings")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>

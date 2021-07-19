@@ -31,8 +31,5 @@
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
     }
 }

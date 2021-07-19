@@ -10,8 +10,8 @@ using TapMarket.Data;
 namespace TapMarket.Data.Migrations
 {
     [DbContext(typeof(TapMarketDbContext))]
-    [Migration("20210719200742_PriceUpdate")]
-    partial class PriceUpdate
+    [Migration("20210719212059_CustomerListingCategory")]
+    partial class CustomerListingCategory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -238,6 +238,32 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.Property<int>("Id")
@@ -249,10 +275,14 @@ namespace TapMarket.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Condition")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -274,6 +304,8 @@ namespace TapMarket.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Listings");
                 });
@@ -337,10 +369,19 @@ namespace TapMarket.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TapMarket.Data.Models.Customer", null)
+                        .WithMany("Listings")
+                        .HasForeignKey("CustomerId");
+
                     b.Navigation("Category");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
+                {
+                    b.Navigation("Listings");
+                });
+
+            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
                     b.Navigation("Listings");
                 });

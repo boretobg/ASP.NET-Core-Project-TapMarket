@@ -13,6 +13,6 @@
         [MaxLength(MaxLength)]
         public string Name { get; set; }
 
-        public IEnumerable<Listing> Listings { get; set; } = new HashSet<Listing>();
+        public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
     }
 }
