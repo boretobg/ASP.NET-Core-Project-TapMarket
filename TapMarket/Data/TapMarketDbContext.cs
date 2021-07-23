@@ -24,10 +24,25 @@ namespace TapMarket.Data
                 .WithMany(c => c.Listings)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            builder
+                .Entity<Listing>()
+                .HasOne(c => c.Customer)
+                .WithMany(c => c.Listings)
+                .HasForeignKey(c => c.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Listing>()
+            builder
+                .Entity<Listing>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,0)");
+
+            builder
+                .Entity<Customer>()
+                .HasOne<IdentityUser>()
+                .WithOne()
+                .HasForeignKey<Customer>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

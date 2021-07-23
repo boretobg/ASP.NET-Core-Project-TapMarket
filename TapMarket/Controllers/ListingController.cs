@@ -1,5 +1,6 @@
 ﻿namespace TapMarket.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
@@ -16,15 +17,27 @@
         public ListingController(TapMarketDbContext data)
             => this.data = data;
 
+        [Authorize]
         public IActionResult Add()
-            => View(new AddListingFormModel
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (!this.data.Customers.Any(c => c.UserId == userId))
+            {
+                return Redirect("/Customer/Additional");
+            }
+
+            return View(new AddListingFormModel
             {
                 Categories = this.GetCategories()
             });
+        }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddListingFormModel listing)
         {
+
             if (!this.data.Categories.Any(c => c.Id == listing.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(listing.CategoryId), "Category does not exist.");
@@ -37,6 +50,8 @@
                 return View(listing);
             }
 
+            var customerId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             var listingData = new Listing
             {
                 Id = listing.Id,
@@ -46,7 +61,8 @@
                 CategoryId = listing.CategoryId,
                 Price = listing.Price,
                 Condition = listing.Condition,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow,
+                CustomerId = customerId
             };
 
             this.data.Listings.Add(listingData);
@@ -55,6 +71,7 @@
             return Redirect("/Listing/CreatedListing");
         }
 
+        [Authorize]
         public IActionResult CreatedListing()
         {
             return View();

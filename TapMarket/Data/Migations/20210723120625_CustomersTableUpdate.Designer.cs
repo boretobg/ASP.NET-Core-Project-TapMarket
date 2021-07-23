@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapMarket.Data;
 
-namespace TapMarket.Data.Migrations
+namespace TapMarket.Data.Migations
 {
     [DbContext(typeof(TapMarketDbContext))]
-    [Migration("20210719212059_CustomerListingCategory")]
-    partial class CustomerListingCategory
+    [Migration("20210723120625_CustomersTableUpdate")]
+    partial class CustomersTableUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -240,17 +240,15 @@ namespace TapMarket.Data.Migrations
 
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -259,7 +257,19 @@ namespace TapMarket.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -281,8 +291,8 @@ namespace TapMarket.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -361,6 +371,15 @@ namespace TapMarket.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("TapMarket.Data.Models.Customer", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.HasOne("TapMarket.Data.Models.Category", "Category")
@@ -369,11 +388,14 @@ namespace TapMarket.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TapMarket.Data.Models.Customer", null)
+                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
                         .WithMany("Listings")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>

@@ -32,7 +32,7 @@
     @foreach (var listing in Model)
     {
         <div class="card" style="width: 18rem;">
-            <img width="277" height="180" src="@listing.ImageUrl" alt="Listing image">
+            <img class="card-img-top" src="@listing.ImageUrl" alt="Listing image">
             <div class="card-body">
                 <h5 class="card-title">@listing.Title</h5>
                 <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>

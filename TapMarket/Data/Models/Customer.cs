@@ -1,5 +1,6 @@
 ﻿namespace TapMarket.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -7,20 +8,26 @@
 
     public class Customer
     {
-        [Required]
-        public int Id { get; init; }
+        public string Id { get; set; } 
 
         [Required]
-        [MaxLength(NameMaxLength)]
-        public string Name { get; set; }
+        [MaxLength(UsernameMaxLength)]
+        public string Username { get; set; }
 
         [Required]
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
 
         [Required]
+        [MaxLength(CityMaxLength)]
+        public string City { get; set; }
+
+        [Required]
         [Phone]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
 
         public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
     }
