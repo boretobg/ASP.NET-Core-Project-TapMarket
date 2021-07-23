@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapMarket.Data;
 
-namespace TapMarket.Data.Migations
+namespace TapMarket.Data.Migrations
 {
     [DbContext(typeof(TapMarketDbContext))]
-    [Migration("20210723120625_CustomersTableUpdate")]
-    partial class CustomersTableUpdate
+    [Migration("20210723155512_Customers")]
+    partial class Customers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -240,8 +240,10 @@ namespace TapMarket.Data.Migations
 
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -291,8 +293,8 @@ namespace TapMarket.Data.Migations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -391,7 +393,8 @@ namespace TapMarket.Data.Migations
                     b.HasOne("TapMarket.Data.Models.Customer", "Customer")
                         .WithMany("Listings")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Category");
 

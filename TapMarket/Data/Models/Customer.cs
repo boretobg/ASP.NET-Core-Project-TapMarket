@@ -8,7 +8,8 @@
 
     public class Customer
     {
-        public string Id { get; set; } 
+        [Key]
+        public int Id { get; init; } 
 
         [Required]
         [MaxLength(UsernameMaxLength)]

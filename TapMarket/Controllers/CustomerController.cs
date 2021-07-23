@@ -1,5 +1,6 @@
 ﻿namespace TapMarket.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Security.Claims;
@@ -15,10 +16,12 @@
         public CustomerController(TapMarketDbContext data) 
             => this.data = data;
 
+        [Authorize]
         public IActionResult Additional() 
             => View();
 
         [HttpPost]
+        [Authorize]
         public IActionResult Additional(AdditionalInfoFormModel customerInfo)
         {
             if (!ModelState.IsValid)

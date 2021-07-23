@@ -37,7 +37,6 @@
         [Authorize]
         public IActionResult Add(AddListingFormModel listing)
         {
-
             if (!this.data.Categories.Any(c => c.Id == listing.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(listing.CategoryId), "Category does not exist.");
@@ -50,7 +49,13 @@
                 return View(listing);
             }
 
-            var customerId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var customerId = this
+                .data
+                .Customers
+                .Where(c => c.UserId == userId)
+                .Select(c => c.Id)
+                .FirstOrDefault();
 
             var listingData = new Listing
             {
