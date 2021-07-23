@@ -96,9 +96,9 @@ body {
     text-decoration: none !important;
 }
 
-    .footerlinks:hover {
-        color: #ffd800;
-    }
+.footerlinks:hover {
+    color: #ffd800;
+}
 
 #footer1 {
     background: #762b00;
@@ -121,4 +121,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-gap: .1rem;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
 }

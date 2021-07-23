@@ -39,6 +39,7 @@
                 new Category {Name = "Tourism"},
                 new Category {Name = "Sports"},
                 new Category {Name = "Jobs"},
+                new Category {Name = "Hobby"},
                 new Category {Name = "Other"}
             });
 
