@@ -1,23 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using TapMarket.Data;
-using TapMarket.Models;
-using TapMarket.Models.Listing;
-
-namespace TapMarket.Controllers
+﻿namespace TapMarket.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+    using System.Linq;
+    using TapMarket.Data;
+    using TapMarket.Models;
+    using TapMarket.Models.Listing;
+    using TapMarket.Services;
+
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
+        private readonly IUserService user;
 
-        public HomeController(TapMarketDbContext data) 
-            => this.data = data;
+        public HomeController(TapMarketDbContext data, IUserService user)
+        { 
+            this.data = data;
+            this.user = user;
+        }
 
         public IActionResult Index()
         {
@@ -32,14 +32,14 @@ namespace TapMarket.Controllers
                     ImageUrl = l.ImageUrl
                 }).ToList();
 
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             ViewBag.Listings = listings;
-            ViewBag.Customer = this.data.Customers.Where(c => c.UserId == userId).FirstOrDefault();
+            ViewBag.Customer = this.user.GetId();
+
             return View();
         }
 
-        public IActionResult About() => View();
+        public IActionResult About() 
+            => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

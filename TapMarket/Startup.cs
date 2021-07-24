@@ -9,6 +9,7 @@ namespace TapMarket
     using Microsoft.Extensions.Hosting;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
+    using TapMarket.Services;
 
     public class Startup
     {
@@ -37,6 +38,9 @@ namespace TapMarket
 
             services
                 .AddControllersWithViews();
+
+            services
+                .AddTransient(typeof(IUserService), typeof(UserService));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

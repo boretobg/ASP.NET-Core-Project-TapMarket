@@ -20,6 +20,7 @@
         <h1> Welcome! Explore now!</h1>
     }
 
+    <br/>
     <div class="input-group mb-3">
         <input type="text" class="form-control " placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
         <div class="input-group-append">
@@ -28,20 +29,19 @@
     </div>
 </div>
 
-
 <h2 style="margin-top:70px;text-align:center;">Some recent listings</h2>
 <br />
 
 <div class="card-deck">
-        @foreach (var listing in listings)
-        {
-            <div class="card" style="width: 16rem;">
-                <img class="card-img-top" src="@listing.ImageUrl" alt="Listing image">
-                <div class="card-body">
-                    <h5 class="card-title">@listing.Title</h5>
-                    <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>
-                    <a href="#" class="btn btn-primary">Check out</a>
-                </div>
+    @foreach (var listing in listings)
+    {
+        <div class="card" style="width: 16rem;">
+            <img class="card-img-top" src="@listing.ImageUrl" alt="Listing image">
+            <div class="card-body">
+                <h5 class="card-title">@listing.Title</h5>
+                <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>
+                <a href="#" class="btn btn-primary">Check out</a>
             </div>
-        }
-    </div>
+        </div>
+    }
+</div>

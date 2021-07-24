@@ -5,24 +5,26 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Claims;
     using TapMarket.Data;
     using TapMarket.Data.Models;
     using TapMarket.Models.Listing;
+    using TapMarket.Services;
 
     public class ListingController : Controller
     {
         private readonly TapMarketDbContext data;
+        private readonly IUserService user;
 
-        public ListingController(TapMarketDbContext data)
-            => this.data = data;
+        public ListingController(TapMarketDbContext data, IUserService user)
+        {
+            this.data = data;
+            this.user = user;
+        }
 
         [Authorize]
         public IActionResult Add()
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            if (!this.data.Customers.Any(c => c.UserId == userId))
+            if (!this.data.Customers.Any(c => c.UserId == user.GetId()))
             {
                 return Redirect("/Customer/Additional");
             }
@@ -56,11 +58,10 @@
                 return View(listing);
             }
 
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var customerId = this
                 .data
                 .Customers
-                .Where(c => c.UserId == userId)
+                .Where(c => c.UserId == user.GetId())
                 .Select(c => c.Id)
                 .FirstOrDefault();
 
@@ -85,10 +86,7 @@
 
         [Authorize]
         public IActionResult CreatedListing()
-        {
-            return View();
-        }
-
+            => View();
 
         private IEnumerable<ListingCategoryViewModel> GetCategories()
          => this.data
@@ -97,8 +95,7 @@
             {
                 Id = c.Id,
                 Name = c.Name
-            })
-            .ToList();
+            }).ToList();
 
         private IEnumerable<ListingConditionViewModel> GetConditions()
             => this.data
@@ -107,7 +104,6 @@
             {
                 Id = c.Id,
                 Name = c.Name
-            })
-            .ToList();
+            }).ToList();
     }
 }
