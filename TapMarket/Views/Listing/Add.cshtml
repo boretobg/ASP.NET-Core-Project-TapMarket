@@ -16,7 +16,7 @@
                         <label asp-for="CategoryId">Category</label>
                         <select asp-for="CategoryId" class="form-control">
                             <option selected>Choose...</option>
-                            @foreach (var category in Model.Categories)
+                            @foreach (var category in Model.Categories.OrderBy(c => c.Id))
                             {
                                 <option value="@category.Id">@category.Name</option>
                             }
@@ -36,12 +36,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Condition">Condition</label>
-                        <select asp-for="Condition" class="form-control">
+                        <label asp-for="ConditionId">Condition</label>
+                        <select asp-for="ConditionId" class="form-control">
                             <option selected>Choose...</option>
-                            <option>Used</option>
-                            <option>New</option>
-                            <option>None</option>
+                            @foreach (var condition in Model.Conditions.OrderBy(c => c.Id))
+                            {
+                                <option value="@condition.Id">@condition.Name</option>
+                            }
                         </select>
                     </div>
 

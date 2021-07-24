@@ -55,7 +55,7 @@
                 { 
                     Title = l.Title,
                     Price = l.Price,
-                    Condition = l.Condition,
+                    ConditionId = l.ConditionId,
                     ImageUrl = l.ImageUrl
                 }).ToList();
 

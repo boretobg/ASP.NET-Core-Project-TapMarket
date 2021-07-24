@@ -29,7 +29,8 @@
 
             return View(new AddListingFormModel
             {
-                Categories = this.GetCategories()
+                Categories = this.GetCategories(),
+                Conditions = this.GetConditions()
             });
         }
 
@@ -41,10 +42,16 @@
             {
                 this.ModelState.AddModelError(nameof(listing.CategoryId), "Category does not exist.");
             }
+            if (!this.data.Conditions.Any(c => c.Id == listing.ConditionId))
+            {
+                this.ModelState.AddModelError(nameof(listing.ConditionId), "Condition does not exist.");
+            }
+
 
             if (!ModelState.IsValid)
             {
                 listing.Categories = this.GetCategories();
+                listing.Conditions = this.GetConditions();
 
                 return View(listing);
             }
@@ -65,7 +72,7 @@
                 Description = listing.Description,
                 CategoryId = listing.CategoryId,
                 Price = listing.Price,
-                Condition = listing.Condition,
+                ConditionId = listing.ConditionId,
                 CreatedOn = DateTime.UtcNow,
                 CustomerId = customerId
             };
@@ -87,6 +94,16 @@
          => this.data
             .Categories
             .Select(c => new ListingCategoryViewModel
+            {
+                Id = c.Id,
+                Name = c.Name
+            })
+            .ToList();
+
+        private IEnumerable<ListingConditionViewModel> GetConditions()
+            => this.data
+             .Conditions
+            .Select(c => new ListingConditionViewModel
             {
                 Id = c.Id,
                 Name = c.Name

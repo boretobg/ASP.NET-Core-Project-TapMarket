@@ -25,11 +25,12 @@
 
         public decimal Price { get; init; }
 
-        [Required]
-        public string Condition { get; init; }
+        public int ConditionId { get; init; }
 
         public int CategoryId { get; init; }
 
         public IEnumerable<ListingCategoryViewModel> Categories { get; set; }
+
+        public IEnumerable<ListingConditionViewModel> Conditions { get; set; }
     }
 }

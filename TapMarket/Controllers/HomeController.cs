@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TapMarket.Data;
 using TapMarket.Models;
@@ -27,11 +28,15 @@ namespace TapMarket.Controllers
                 {
                     Title = l.Title,
                     Price = l.Price,
-                    Condition = l.Condition,
+                    ConditionId = l.ConditionId,
                     ImageUrl = l.ImageUrl
                 }).ToList();
 
-            return View(listings);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.Listings = listings;
+            ViewBag.Customer = this.data.Customers.Where(c => c.UserId == userId).FirstOrDefault();
+            return View();
         }
 
         public IActionResult About() => View();

@@ -26,5 +26,10 @@
             public const int CityMaxLength = 20;
             public const int CityMinLength = 3;
         }
+
+        public class Condition
+        {
+            public const int MaxLength = 10;
+        }
     }
 }

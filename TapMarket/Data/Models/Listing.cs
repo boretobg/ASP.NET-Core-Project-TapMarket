@@ -20,9 +20,6 @@
 
         public DateTime CreatedOn { get; set; }
 
-        [Required]
-        public string Condition { get; set; }
-
         [Column(TypeName = "decimal(18, 0)")]
         public decimal Price { get; set; }
 
@@ -31,6 +28,9 @@
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        public int ConditionId { get; set; }
+        public Condition Condition { get; set; }
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

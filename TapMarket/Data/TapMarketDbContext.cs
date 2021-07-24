@@ -15,6 +15,7 @@ namespace TapMarket.Data
         public DbSet<Listing> Listings { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Condition> Conditions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,7 +25,14 @@ namespace TapMarket.Data
                 .WithMany(c => c.Listings)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
+            builder
+                .Entity<Listing>()
+                .HasOne(c => c.Condition)
+                .WithMany(c => c.Listings)
+                .HasForeignKey(c => c.ConditionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder
                 .Entity<Listing>()
                 .HasOne(c => c.Customer)
