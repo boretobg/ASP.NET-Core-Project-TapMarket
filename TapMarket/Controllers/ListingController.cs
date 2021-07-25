@@ -7,24 +7,22 @@
     using System.Linq;
     using TapMarket.Data;
     using TapMarket.Data.Models;
+    using TapMarket.Infrastructure;
     using TapMarket.Models.Listing;
-    using TapMarket.Services;
 
     public class ListingController : Controller
     {
         private readonly TapMarketDbContext data;
-        private readonly IUserService user;
 
-        public ListingController(TapMarketDbContext data, IUserService user)
+        public ListingController(TapMarketDbContext data)
         {
             this.data = data;
-            this.user = user;
         }
 
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.data.Customers.Any(c => c.UserId == user.GetId()))
+            if (!this.data.Customers.Any(c => c.UserId == this.User.GetId()))
             {
                 return Redirect("/Customer/Additional");
             }
@@ -58,10 +56,11 @@
                 return View(listing);
             }
 
+
             var customerId = this
                 .data
                 .Customers
-                .Where(c => c.UserId == user.GetId())
+                .Where(c => c.UserId == this.User.GetId())
                 .Select(c => c.Id)
                 .FirstOrDefault();
 

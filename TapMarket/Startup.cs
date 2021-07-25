@@ -7,9 +7,9 @@ namespace TapMarket
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using System.Security.Claims;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
-    using TapMarket.Services;
 
     public class Startup
     {
@@ -40,7 +40,8 @@ namespace TapMarket
                 .AddControllersWithViews();
 
             services
-                .AddTransient(typeof(IUserService), typeof(UserService));
+                .Configure<IdentityOptions>(options =>
+                    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -4,19 +4,16 @@
     using System.Diagnostics;
     using System.Linq;
     using TapMarket.Data;
+    using TapMarket.Infrastructure;
     using TapMarket.Models;
     using TapMarket.Models.Listing;
-    using TapMarket.Services;
 
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
-        private readonly IUserService user;
-
-        public HomeController(TapMarketDbContext data, IUserService user)
+        public HomeController(TapMarketDbContext data)
         { 
             this.data = data;
-            this.user = user;
         }
 
         public IActionResult Index()
@@ -28,12 +25,12 @@
                 {
                     Title = l.Title,
                     Price = l.Price,
-                    ConditionId = l.ConditionId,
+                    Condition = l.Condition.Name,
                     ImageUrl = l.ImageUrl
                 }).ToList();
 
             ViewBag.Listings = listings;
-            ViewBag.Customer = this.user.GetId();
+            ViewBag.Customer = this.data.Customers.Where(c => c.UserId == this.User.GetId()).FirstOrDefault();
 
             return View();
         }

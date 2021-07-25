@@ -8,19 +8,33 @@
 
     var listings = ViewBag.Listings;
     var customer = ViewBag.Customer;
+
+    bool flag = false;
 }
 
 <div class="text-center">
     @if (SignInManager.IsSignedIn(User))
     {
-        <h1> Welcome,  @customer.Username! </h1>
+        if (customer is null)
+        {
+            flag = true;
+        }
+        else
+        {
+            <h1> Welcome,  @customer.Username! </h1>
+        }
     }
     else
     {
-        <h1> Welcome! Explore now!</h1>
+        flag = true;
     }
 
-    <br/>
+    @if (flag)
+    {
+        <h1> Welcome,  Explore Now! </h1>
+    }
+
+    <br />
     <div class="input-group mb-3">
         <input type="text" class="form-control " placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
         <div class="input-group-append">
