@@ -41,6 +41,7 @@
                 PhoneNumber = customerInfo.PhoneNumber,
                 Address = customerInfo.Address,
                 City = customerInfo.City,
+                PictureUrl = customerInfo.PictureUrl,
                 UserId = this.User.GetId()
             };
 
@@ -64,7 +65,22 @@
                     ImageUrl = l.ImageUrl
                 }).ToList();
 
-            return View(listings);
+            var customer = this.data
+                .Customers
+                .Where(c => c.UserId == this.User.GetId())
+                .Select(c => new ProfileViewModel
+                { 
+                    Username = c.Username,
+                    Address = c.Address,
+                    City = c.City,
+                    PhoneNumber = c.PhoneNumber,
+                    PictureUrl = c.PictureUrl,
+                    Listings = listings
+                });
+
+            ViewBag.Customer = customer;
+
+            return View();
         }
     }
 }

@@ -24,5 +24,9 @@
         [StringLength(CityMaxLength, MinimumLength = CityMinLength,
             ErrorMessage = "City must be between {2} and {1} characters.")]
         public string City { get; set; }
+
+        [Required]
+        [Url]
+        public string PictureUrl { get; set; }
     }
 }

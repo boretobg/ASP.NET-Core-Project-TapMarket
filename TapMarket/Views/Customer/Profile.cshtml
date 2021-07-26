@@ -1,4 +1,8 @@
-﻿<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"></asp:Content>
+﻿@{ 
+    var customer = ViewBag.Customer;
+}
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"></asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div class="row">
@@ -14,9 +18,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <img width="200" src="~/imgs/profile.jpg" />
-                                </center>
+                                <img src="@customer.PictureUrl" alt="Alternate Text" />
                             </div>
                         </div>
                         <div class="row">
@@ -26,23 +28,23 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label> <b>Publisher ID </b></label>
+                                <label> <b>Username</b></label>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"> 1 </asp:TextBox>
+                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"> @customer.Username </asp:TextBox>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <label> <b> Publisher Name </b> </label>
+                                <label> <b> City </b> </label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Name"> Borislav Borislavov </asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Name"> @customer.City </asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <label> <b> Publisher Address </b> </label>
+                                <label> <b> Address </b> </label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Address"> Vidin Hristo Botev </asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Address"> @customer.Address </asp:TextBox>
                                 </div>
                             </div>
                             <div class="col">

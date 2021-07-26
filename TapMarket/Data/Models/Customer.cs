@@ -27,6 +27,10 @@
         public string PhoneNumber { get; set; }
 
         [Required]
+        [Url]
+        public string PictureUrl { get; set; }
+
+        [Required]
         public string UserId { get; set; }
 
         public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
