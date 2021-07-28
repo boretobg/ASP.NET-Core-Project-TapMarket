@@ -1,6 +1,7 @@
 ﻿namespace TapMarket.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Diagnostics;
     using System.Linq;
     using TapMarket.Data;
@@ -29,7 +30,10 @@
                     ImageUrl = l.ImageUrl
                 }).ToList();
 
-            ViewBag.Listings = listings;
+            var rnd = new Random();
+            var shuffledListings = listings.OrderBy(c => rnd.Next()).ToList();
+
+            ViewBag.ShuffledListings = shuffledListings;
             ViewBag.Customer = this.data.Customers.Where(c => c.UserId == this.User.GetId()).FirstOrDefault();
 
             return View();
