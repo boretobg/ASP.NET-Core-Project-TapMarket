@@ -1,6 +1,15 @@
-﻿@{ 
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model TapMarket.Models.Customer.ProfileViewModel
+
+@{
     var customer = ViewBag.Customer;
+    var listings = ViewBag.Listings;
 }
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"></asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -12,82 +21,93 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4>Publisher Details</h4>
+                                    <h1>@customer.Username</h1>
                                 </center>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col">
-                                <img src="@customer.PictureUrl" alt="Alternate Text" />
+                                <center>
+                                    <h6>@User.Identity.Name</h6>
+                                </center>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <center>
+                                    <img class="card" src="@customer.PictureUrl" width="200" height="200"/>
+                                </center>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col">
                                 <hr>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label> <b>Username</b></label>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"> @customer.Username </asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <label> <b> City </b> </label>
-                                <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Name"> @customer.City </asp:TextBox>
-                                </div>
-                            </div>
+
+                        <div>
+
                             <div class="col-md-12">
                                 <label> <b> Address </b> </label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Publisher Address"> @customer.Address </asp:TextBox>
+                                    <asp:TextBox> @customer.Address, @customer.City </asp:TextBox>
                                 </div>
                             </div>
-                            <div class="col">
+
+                            <div class="col-md-12">
+                                <label> <b>Phone Number</b></label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <asp:TextBox> @customer.PhoneNumber </asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-lg btn-block btn-warning">Manage account</a>
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
                 </div>
+
                 <a asp-controller="Home" asp-action="Index"><< Back to Home</a><br>
                 <br>
+
             </div>
+
             <div class="col-md-7">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4> <b> Publisher Listings </b></h4>
+                                    <h4> <b> My Listings </b></h4>
                                 </center>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <table class="table">
+                                <table class="table border border-dark border-primary">
                                     <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Image</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Option</th>
-                                        </tr>
+                                            
                                     </thead>
                                     <tbody>
-                                        @foreach (var listing in Model)
+                                        @foreach (var listing in listings)
                                         {
                                             <tr>
-                                                <th> <img src="@listing.ImageUrl" width="150"/> </th>
+                                                <th> <img width="160" src="@listing.ImageUrl" /> </th>
                                                 <th scope="row"> @listing.Title </th>
-                                                <th> @listing.Price </th>
+                                                <th> $@listing.Price </th>
                                                 <th>
-                                                      <asp:Button ID="Button4" class="btn btn-lg btn-block btn-danger" runat="server" Text="Delete"> Delete </asp:Button>
+                                                    <asp:Button class="btn btn-lg btn-block btn-info"> View </asp:Button>
+                                                    <asp:Button class="btn btn-lg btn-block btn-danger"> Delete </asp:Button>
                                                 </th>
                                             </tr>
                                         }
@@ -95,7 +115,7 @@
                                 </table>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

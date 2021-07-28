@@ -1,10 +1,7 @@
 ﻿namespace TapMarket.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.IO;
     using System.Linq;
     using TapMarket.Data;
     using TapMarket.Data.Models;
@@ -53,6 +50,11 @@
 
         public IActionResult Profile()
         {
+            if (!this.data.Customers.Any(c => c.UserId == this.User.GetId()))
+            {
+                return Redirect("/Customer/Additional");
+            }
+
             var listingsQuery = this.data.Listings.AsQueryable();
 
             var listings = listingsQuery
@@ -76,9 +78,11 @@
                     PhoneNumber = c.PhoneNumber,
                     PictureUrl = c.PictureUrl,
                     Listings = listings
-                });
+                })
+                .FirstOrDefault();
 
             ViewBag.Customer = customer;
+            ViewBag.Listings = listings;
 
             return View();
         }
