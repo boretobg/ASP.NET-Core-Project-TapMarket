@@ -61,6 +61,7 @@
                 .Where(c => c.Customer.UserId == this.User.GetId())
                 .Select(l => new ListingViewModel
                 {
+                    Id = l.Id,
                     Title = l.Title,
                     Price = l.Price,
                     Condition = l.Condition.Name,

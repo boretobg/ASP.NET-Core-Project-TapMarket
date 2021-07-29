@@ -1,0 +1,13 @@
+﻿@{ 
+    var listing = ViewBag.Listing;
+    var customer = ViewBag.Customer;
+}
+
+<div class="card mb-3">
+    <img class="card-img-top" src="@listing.ImageUrl" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@listing.Title</h5>
+        <p class="card-text">@listing.Description</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+</div>

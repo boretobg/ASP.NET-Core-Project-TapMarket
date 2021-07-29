@@ -128,3 +128,7 @@ body {
     height: 15vw;
     object-fit: cover;
 }
+
+.mdc-layout-grid {
+    padding: .5rem;
+}

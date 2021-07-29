@@ -8,6 +8,7 @@
     using TapMarket.Data;
     using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
+    using TapMarket.Models.Customer;
     using TapMarket.Models.Listing;
 
     public class ListingController : Controller
@@ -17,6 +18,51 @@
         public ListingController(TapMarketDbContext data)
         {
             this.data = data;
+        }
+
+        public IActionResult Delete(int listingId)
+        {
+            var listing = this.data.Listings.Where(x => x.Id == listingId).FirstOrDefault();
+
+            if (listing != null)
+            {
+                this.data.Listings.Remove(listing);
+            }
+
+            this.data.SaveChanges();
+
+            return Redirect("/Customer/Profile");
+        }
+
+        [Authorize]
+        public IActionResult Details(int listingId)
+        {
+            var listing = this.data.Listings.Where(x => x.Id == listingId).FirstOrDefault();
+            var customer = this.data
+                .Customers
+                .Where(c => c.Listings.Any(l => l.Id == listing.Id))
+                .Select(c => new ProfileListingDetailsViewModel
+                {
+                    Username = c.Username,
+                    Address = c.Address,
+                    City = c.City,
+                    PhoneNumber = c.PhoneNumber,
+                    PictureUrl = c.PictureUrl,
+                    ListingId = listing.Id
+                })
+                .FirstOrDefault();
+
+
+            //this might not work in some cases?? idk
+            if (listing == null || customer == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            ViewBag.Listing = listing;
+            ViewBag.Customer = customer;
+
+            return View();
         }
 
         [Authorize]
