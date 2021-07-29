@@ -37,7 +37,20 @@
         [Authorize]
         public IActionResult Details(int listingId)
         {
-            var listing = this.data.Listings.Where(x => x.Id == listingId).FirstOrDefault();
+            var listing = this.data
+                .Listings.Where(x => x.Id == listingId)
+                .Select(l => new ListingDetailsViewModel
+                {
+                    Id = l.Id,
+                    Title = l.Title,
+                    Price = l.Price,
+                    ImageUrl = l.ImageUrl,
+                    Description = l.Description,
+                    Category = l.Category.Name,
+                    Condition = l.Condition.Name,
+                    CreatedOn = l.CreatedOn
+                }).FirstOrDefault();
+
             var customer = this.data
                 .Customers
                 .Where(c => c.Listings.Any(l => l.Id == listing.Id))
@@ -49,8 +62,7 @@
                     PhoneNumber = c.PhoneNumber,
                     PictureUrl = c.PictureUrl,
                     ListingId = listing.Id
-                })
-                .FirstOrDefault();
+                }).FirstOrDefault();
 
 
             //this might not work in some cases?? idk

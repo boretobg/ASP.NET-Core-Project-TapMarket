@@ -3,11 +3,18 @@
     var customer = ViewBag.Customer;
 }
 
-<div class="card mb-3">
-    <img class="card-img-top" src="@listing.ImageUrl" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">@listing.Title</h5>
-        <p class="card-text">@listing.Description</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+<div class="container">
+    <div class="row">
+        <div class="card offset-md-2 col-md-8 col-sm-12">
+            <img class="card-img" style="margin-top:15px" src="@listing.ImageUrl">
+            <div class="card-body">
+                <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn</small></p>
+                <h1 class="card-title"> @listing.Title </h1>
+                <h3 class="card-title"> <b>$@listing.Price</b></h3>
+                <p class="card-text"><small class="text-muted"> @listing.Condition condition, @listing.Category</small></p>
+                <h3 class="card-title"> Description</h3>
+                <p class="card-text">@listing.Description</p>
+            </div>
+        </div>
     </div>
 </div>
