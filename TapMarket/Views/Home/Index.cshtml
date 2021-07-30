@@ -11,6 +11,10 @@
     var shuffledListings = ViewBag.ShuffledListings;
     var customer = ViewBag.Customer;
 
+    var searchedListings = ViewBag.SearchedListings;
+
+    var finalListings = new List<ListingViewModel>();
+
     bool flag = false;
 }
 
@@ -51,8 +55,17 @@
 <h2 style="margin-top:70px;text-align:center;">Some recent listings</h2>
 <br />
 
+@if (searchedListings == null)
+{
+    finalListings = shuffledListings;
+}
+else
+{
+    finalListings = searchedListings;
+}
+
 <div class="card-deck">
-    @foreach (var listing in shuffledListings)
+    @foreach (var listing in finalListings)
     {
         <div class="card" style="width: 16rem;">
             <img class="card-img-top" src="@listing.ImageUrl" alt="Listing image">

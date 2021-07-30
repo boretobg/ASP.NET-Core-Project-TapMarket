@@ -6,7 +6,6 @@
     using System.Diagnostics;
     using System.Linq;
     using TapMarket.Data;
-    using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
     using TapMarket.Models;
     using TapMarket.Models.Home;
@@ -15,21 +14,43 @@
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
+
         public HomeController(TapMarketDbContext data)
-        { 
+        {
             this.data = data;
         }
 
         [HttpPost]
         public IActionResult Index(HomeFormModel homeInfo)
         {
-            if (string.IsNullOrEmpty(homeInfo.SearchInput) || string.IsNullOrWhiteSpace(homeInfo.SearchInput))
+            List<ListingViewModel> searchedListings = null;
+
+            if (!string.IsNullOrEmpty(homeInfo.SearchInput))
             {
-                var listings = this.data
+                searchedListings = this.data
                     .Listings
-                    .Where(l => l.Title.Contains(homeInfo.SearchInput))
+                    .Where(l => l.Title.ToLower().Contains(homeInfo.SearchInput.ToLower()))
+                    .Select(l => new ListingViewModel
+                    {
+                        Id = l.Id,
+                        Title = l.Title,
+                        Price = l.Price,
+                        Condition = l.Condition.Name,
+                        ImageUrl = l.ImageUrl
+                    })
                     .ToList();
+
+                if (searchedListings == null)
+                {
+                    return Redirect("/Home/Index");
+                }
             }
+            else
+            {
+                return Redirect("/Home/Index");
+            }
+
+            ViewBag.SearchedListings = searchedListings;
 
             return View();
         }
@@ -57,7 +78,7 @@
             return View();
         }
 
-        public IActionResult About() 
+        public IActionResult About()
             => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
