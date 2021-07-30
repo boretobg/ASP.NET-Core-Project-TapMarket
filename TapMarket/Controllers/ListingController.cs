@@ -105,7 +105,6 @@
                 this.ModelState.AddModelError(nameof(listing.ConditionId), "Condition does not exist.");
             }
 
-
             if (!ModelState.IsValid)
             {
                 listing.Categories = this.GetCategories();

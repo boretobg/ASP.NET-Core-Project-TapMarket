@@ -31,5 +31,10 @@
         {
             public const int MaxLength = 10;
         }
+
+        public class HomePage
+        {
+            public const int SearchInputMaxLength = 15;
+        }
     }
 }

@@ -3,6 +3,8 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+@model TapMarket.Models.Home.HomeFormModel
+
 @{
     ViewData["Title"] = "Home Page";
 
@@ -35,12 +37,15 @@
     }
 
     <br />
-    <div class="input-group mb-3">
-        <input type="text" class="form-control " placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Search</button>
+    <form method="post">
+        <div class="input-group mb-3">
+            <input asp-for="SearchInput" type="text" class="form-control " placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
+            <span asp-validation-for="SearchInput" class="small text-danger"></span>
+            <div class="input-group-append">
+                <input class="btn btn-info float-left" type="submit" value="Search">
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <h2 style="margin-top:70px;text-align:center;">Some recent listings</h2>

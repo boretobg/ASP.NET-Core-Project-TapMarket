@@ -2,11 +2,14 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using TapMarket.Data;
+    using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
     using TapMarket.Models;
+    using TapMarket.Models.Home;
     using TapMarket.Models.Listing;
 
     public class HomeController : Controller
@@ -15,6 +18,20 @@
         public HomeController(TapMarketDbContext data)
         { 
             this.data = data;
+        }
+
+        [HttpPost]
+        public IActionResult Index(HomeFormModel homeInfo)
+        {
+            if (string.IsNullOrEmpty(homeInfo.SearchInput) || string.IsNullOrWhiteSpace(homeInfo.SearchInput))
+            {
+                var listings = this.data
+                    .Listings
+                    .Where(l => l.Title.Contains(homeInfo.SearchInput))
+                    .ToList();
+            }
+
+            return View();
         }
 
         public IActionResult Index()
