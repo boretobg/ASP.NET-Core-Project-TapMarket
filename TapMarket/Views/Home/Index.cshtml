@@ -43,8 +43,7 @@
     <br />
     <form method="post">
         <div class="input-group mb-3">
-            <input asp-for="SearchInput" type="text" class="form-control " placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
-            <span asp-validation-for="SearchInput" class="small text-danger"></span>
+            <input asp-for="SearchInput" type="text" class="form-control" placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
             <div class="input-group-append">
                 <input class="btn btn-info float-left" type="submit" value="Search">
             </div>
@@ -52,16 +51,21 @@
     </form>
 </div>
 
-<h2 style="margin-top:70px;text-align:center;">Some recent listings</h2>
-<br />
 
 @if (searchedListings == null)
 {
     finalListings = shuffledListings;
+    <h2 style="margin-top:70px;text-align:center;">Listings</h2>
+    <br />
+
 }
 else
 {
     finalListings = searchedListings;
+    if (finalListings.Count < 1)
+    {
+        <h2 style="margin-top:70px;text-align:center;">No results</h2>
+    }
 }
 
 <div class="card-deck">

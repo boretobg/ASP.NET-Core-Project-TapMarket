@@ -34,7 +34,8 @@
 
         public class HomePage
         {
-            public const int SearchInputMaxLength = 15;
+            public const int SearchInputMaxLength = 50;
+            public const int CityInputMaxLength = 20;
         }
     }
 }

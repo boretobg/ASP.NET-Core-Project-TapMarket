@@ -51,6 +51,7 @@
             }
 
             ViewBag.SearchedListings = searchedListings;
+            ViewBag.Customer = this.data.Customers.Where(c => c.UserId == this.User.GetId()).FirstOrDefault();
 
             return View();
         }
