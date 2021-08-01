@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model TapMarket.Models.Home.HelpPageFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="offset-md-2 col-md-8 col-sm-12">
+            <form method="post">
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Title">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Title">
+                        <span asp-validation-for="Title" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="Email">Email</label>
+                        <input asp-for="Email" class="form-control" value="@User.Identity.Name">
+                        <span asp-validation-for="Email" class="small text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" rows="4" class="form-control" placeholder="How can we help you?"></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send</button>
+
+            </form>
+        </div>
+    </div>
+</div>

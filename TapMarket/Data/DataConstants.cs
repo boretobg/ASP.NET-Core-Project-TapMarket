@@ -37,5 +37,13 @@
             public const int SearchInputMaxLength = 50;
             public const int CityInputMaxLength = 20;
         }
+
+        public class HelpPage
+        {
+            public const int TitleMaxLength = 15;
+
+            public const int DescriptionMaxLength = 500;
+            public const int DescriptionMinLength = 30;
+        }
     }
 }

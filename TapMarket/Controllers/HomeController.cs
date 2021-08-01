@@ -79,8 +79,19 @@
             return View();
         }
 
-        public IActionResult About()
-            => View();
+        public IActionResult Help() => View();
+
+        [HttpPost]
+        public IActionResult Help(HelpPageFormModel info)
+        {
+           if (!ModelState.IsValid)
+            {
+                return View(info);
+            }
+
+
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
