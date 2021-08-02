@@ -9,12 +9,13 @@
     <div class="row">
 
         <div class="col-md-8">
-
             <div class="card">
                 <div class="row">
                     <div class="col-sm-auto">
+
                         <img class="card-img" src="@listing.ImageUrl">
                         <div class="card-body">
+
                             <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
 
                             <h1 class="card-title"> @listing.Title </h1>
@@ -43,19 +44,16 @@
                                 <a href="#" class="badge badge-dark">  @listing.Category </a>
                             </h3>
 
-
-                            @*<p class="card-text"><small class="text-muted"> @listing.Condition condition, @listing.Category</small></p>*@
                             <h3 class="card-title"> Description</h3>
                             <p class="card-text">@listing.Description</p>
+
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-4">
-
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -97,25 +95,52 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
-                            <label> <b>Phone Number</b></label>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <asp:TextBox> @customer.PhoneNumber </asp:TextBox>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-lg btn-block btn-success">Call</a>
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-lg btn-block btn-info">Message</a>
+                            <input class="btn btn-lg btn-block btn-success" type="button" value="Call" onclick="return change(this);" />
+
+                            <input class="btn btn-lg btn-block btn-info" type="button" value="Message" />
+
+                            <script type="text/javascript">
+                                function change(el)
+                                {
+                                    if (el.value === "Call")
+                                        el.value = "0" + @customer.PhoneNumber;
+                                    else
+                                        el.value = "Call";
+                                }
+                            </script>
+
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8" style="margin-top:15px">
+            <div class="card">
+                <div class="row">
+                    <div class=" col-sm-12">
+                        <form method="post">
+                            <div class="card-body form-group">
+                                <img style="float:left" src="@customer.PictureUrl" width="50" />
+
+                                <h2 style="margin-left:60px" class="card-title">Message @customer.Username:</h2>
+
+                                <div class="input-group mb-3">
+                                    <textarea style="margin-top:10px;resize:none" class="form-control" placeholder="Hello, I'd like to buy..."></textarea>
+                                    <div class="input-group-append">
+                                        <img src="~/imgs/sentImg.png" width="75px" style="margin-top:10px" class="btn btn-info float-left" type="submit" value="Send">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
