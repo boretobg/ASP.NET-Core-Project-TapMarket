@@ -72,31 +72,19 @@
                         </div>
                     </div>
 
+                    <div>
+                        <center>
+                            <label> 📍 @customer.Address, @customer.City </label>
+                        </center>
+                    </div>
+
                     <div class="row">
-                        <div class="col">
+                        <div style="margin-bottom:15px" class="col">
                             <center>
                                 <img class="card" src="@customer.PictureUrl" width="200" height="200" />
                             </center>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <hr>
-                        </div>
-                    </div>
-
-                    <div>
-
-                        <div class="col-md-12">
-                            <label> <b> Address </b> </label>
-                            <div class="form-group">
-                                <asp:TextBox> @customer.Address, @customer.City </asp:TextBox>
-                            </div>
-                        </div>
-
-                    </div>
-
 
                     <div class="col-md-12">
                         <div class="form-group">
@@ -127,14 +115,14 @@
                     <div class=" col-sm-12">
                         <form method="post">
                             <div class="card-body form-group">
-                                <img style="float:left" src="@customer.PictureUrl" width="50" />
+                                <img style="float:left" class="card" src="@customer.PictureUrl" width="50" />
 
                                 <h2 style="margin-left:60px" class="card-title">Message @customer.Username:</h2>
 
                                 <div class="input-group mb-3">
-                                    <textarea style="margin-top:10px;resize:none" class="form-control" placeholder="Hello, I'd like to buy..."></textarea>
+                                    <textarea style="margin-top:20px;resize:none" class="form-control" placeholder="Hello, can you send me this item to..."></textarea>
                                     <div class="input-group-append">
-                                        <img src="~/imgs/sentImg.png" width="75px" style="margin-top:10px" class="btn btn-info float-left" type="submit" value="Send">
+                                        <img src="~/imgs/sentImg.png" width="75" style="margin-top:20px" class="btn btn-info float-left" type="submit" value="Send">
                                     </div>
                                 </div>
 

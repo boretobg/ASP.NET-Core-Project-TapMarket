@@ -20,6 +20,7 @@
             this.data = data;
         }
 
+        [Authorize]
         public IActionResult Delete(int listingId)
         {
             var listing = this.data.Listings.Where(x => x.Id == listingId).FirstOrDefault();
@@ -32,6 +33,12 @@
             this.data.SaveChanges();
 
             return Redirect("/Customer/Profile");
+        }
+
+        [HttpPost]
+        public IActionResult Details()
+        {
+            return View();
         }
 
         [Authorize]
