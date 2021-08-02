@@ -68,10 +68,10 @@ else
     }
 }
 
-<div class="card-deck">
+<div class="row">
     @foreach (var listing in finalListings)
     {
-        <div class="btn">
+        <div class="btn col-6 col-sm-3">
             <div class="card" style="width: 16rem;">
                 <a href="/Listing/Details?listingId=@listing.Id" class="btn-light btn-light stretched-link">
                     <img class="card-img-top " src="@listing.ImageUrl" alt="Listing image">
