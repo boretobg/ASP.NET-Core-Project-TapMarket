@@ -1,19 +1,122 @@
-﻿@{ 
+﻿@{
     var listing = ViewBag.Listing;
     var customer = ViewBag.Customer;
 }
 
+
+
 <div class="container">
     <div class="row">
-        <div class="card offset-md-2 col-md-8 col-sm-12">
-            <img class="card-img" style="margin-top:15px" src="@listing.ImageUrl">
-            <div class="card-body">
-                <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn</small></p>
-                <h1 class="card-title"> @listing.Title </h1>
-                <h3 class="card-title"> <b>$@listing.Price</b></h3>
-                <p class="card-text"><small class="text-muted"> @listing.Condition condition, @listing.Category</small></p>
-                <h3 class="card-title"> Description</h3>
-                <p class="card-text">@listing.Description</p>
+
+        <div class="col-md-8">
+
+            <div class="card">
+                <div class="row">
+                    <div class="col-sm-auto">
+                        <img class="card-img" src="@listing.ImageUrl">
+                        <div class="card-body">
+                            <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
+
+                            <h1 class="card-title"> @listing.Title </h1>
+                            <h3 class="card-title"> <b>$@listing.Price</b></h3>
+
+                            <h3>
+                                @switch (listing.Condition)
+                                {
+                                    case "New":
+                                        <a href="#" class="badge badge-success"> @listing.Condition condition </a>
+                                        break;
+                                    case "Good":
+                                        <a href="#" class="badge badge-primary"> @listing.Condition condition </a>
+                                        break;
+                                    case "Used":
+                                        <a href="#" class="badge badge-warning"> @listing.Condition condition </a>
+                                        break;
+                                    case "Bad":
+                                        <a href="#" class="badge badge-danger"> @listing.Condition condition </a>
+                                        break;
+                                    case "None":
+                                        <a href="#" class="badge badge-light"> @listing.Condition condition </a>
+                                        break;
+                                }
+
+                                <a href="#" class="badge badge-dark">  @listing.Category </a>
+                            </h3>
+
+
+                            @*<p class="card-text"><small class="text-muted"> @listing.Condition condition, @listing.Category</small></p>*@
+                            <h3 class="card-title"> Description</h3>
+                            <p class="card-text">@listing.Description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <h1>@customer.Username</h1>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <h6>@User.Identity.Name</h6>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <img class="card" src="@customer.PictureUrl" width="200" height="200" />
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <div class="col-md-12">
+                            <label> <b> Address </b> </label>
+                            <div class="form-group">
+                                <asp:TextBox> @customer.Address, @customer.City </asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label> <b>Phone Number</b></label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <asp:TextBox> @customer.PhoneNumber </asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-lg btn-block btn-success">Call</a>
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-lg btn-block btn-info">Message</a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

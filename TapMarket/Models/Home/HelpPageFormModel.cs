@@ -8,7 +8,7 @@
     {
         [Required]
         [MaxLength(TitleMaxLength, ErrorMessage = "Title can't be more than {0} characters.")]
-        public string Title { get; set; }
+        public string Subject { get; set; }
 
         [Required]
         [EmailAddress]
@@ -17,6 +17,6 @@
         [Required]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength,
             ErrorMessage = "Title must be between {2} and {1} characters.")]
-        public string Description { get; set; }
+        public string Content { get; set; }
     }
 }
