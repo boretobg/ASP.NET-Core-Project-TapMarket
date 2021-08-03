@@ -342,6 +342,31 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Listings");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SentOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -429,6 +454,17 @@ namespace TapMarket.Data.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+                {
+                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
+                        .WithMany("Messages")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
                 {
                     b.Navigation("Listings");
@@ -442,6 +478,8 @@ namespace TapMarket.Data.Migrations
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
                     b.Navigation("Listings");
+
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

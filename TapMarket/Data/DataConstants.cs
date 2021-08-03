@@ -45,5 +45,10 @@
             public const int DescriptionMaxLength = 500;
             public const int DescriptionMinLength = 30;
         }
+
+        public class Message
+        {
+            public const int TextMaxLength = 250;
+        }
     }
 }

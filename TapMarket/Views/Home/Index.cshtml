@@ -55,14 +55,20 @@
 @if (searchedListings == null)
 {
     finalListings = shuffledListings;
-    <h2 style="margin-top:70px;text-align:center;">Listings</h2>
+    if (finalListings.Count == 0)
+    {
+        <h2 style="margin-top:70px;text-align:center;">No listings yet, be the first!</h2>
+    }
+    else
+    {
+        <h2 style="margin-top:70px;text-align:center;">Listings</h2>
+    }
     <br />
-
 }
 else
 {
     finalListings = searchedListings;
-    if (finalListings.Count < 1)
+    if (finalListings.Count == 0)
     {
         <h2 style="margin-top:70px;text-align:center;">No results</h2>
     }

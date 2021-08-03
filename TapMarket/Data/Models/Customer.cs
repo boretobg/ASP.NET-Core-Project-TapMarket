@@ -34,5 +34,6 @@
         public string UserId { get; set; }
 
         public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
+        public IEnumerable<Message> Messages { get; set; } = new List<Message>();
     }
 }
