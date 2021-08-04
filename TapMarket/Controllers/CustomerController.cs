@@ -1,6 +1,7 @@
 ﻿namespace TapMarket.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
     using System.Linq;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
@@ -16,20 +17,16 @@
             this.data = data;
         }
 
+        public IActionResult Listings()
+        {
+            var listings = GetListings();
+
+            return View(listings);
+        }
+
         public IActionResult Profile()
         {
-            var listingsQuery = this.data.Listings.AsQueryable();
-
-            var listings = listingsQuery
-                .Where(c => c.Customer.Id == this.User.GetId())
-                .Select(l => new ListingViewModel
-                {
-                    Id = l.Id,
-                    Title = l.Title,
-                    Price = l.Price,
-                    Condition = l.Condition.Name,
-                    ImageUrl = l.ImageUrl
-                }).ToList();
+            var listings = GetListings();
 
             var customer = this.data
                 .Customers
@@ -50,6 +47,24 @@
             ViewBag.Listings = listings;
 
             return View();
+        }
+
+        public ICollection<ListingViewModel> GetListings()
+        {
+            var listingsQuery = this.data.Listings.AsQueryable();
+
+            var listings = listingsQuery
+                .Where(c => c.Customer.Id == this.User.GetId())
+                .Select(l => new ListingViewModel
+                {
+                    Id = l.Id,
+                    Title = l.Title,
+                    Price = l.Price,
+                    Condition = l.Condition.Name,
+                    ImageUrl = l.ImageUrl
+                }).ToList();
+
+            return listings;
         }
     }
 }
