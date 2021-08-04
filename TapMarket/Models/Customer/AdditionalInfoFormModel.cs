@@ -7,9 +7,9 @@
     public class AdditionalInfoFormModel
     {
         [Required]
-        [StringLength(UsernameMaxLength, MinimumLength = UsernameMinLength,
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength,
             ErrorMessage = "Username must be between {2} and {1} characters.")]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [Phone]

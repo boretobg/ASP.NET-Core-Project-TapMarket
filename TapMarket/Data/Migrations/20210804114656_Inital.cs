@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TapMarket.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,12 @@ namespace TapMarket.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -179,30 +185,6 @@ namespace TapMarket.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Customers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Listings",
                 columns: table => new
                 {
@@ -215,11 +197,17 @@ namespace TapMarket.Data.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ConditionId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Listings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Listings_AspNetUsers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Listings_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -230,33 +218,6 @@ namespace TapMarket.Data.Migrations
                         name: "FK_Listings_Conditions_ConditionId",
                         column: x => x.ConditionId,
                         principalTable: "Conditions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Listings_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    SentOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -301,12 +262,6 @@ namespace TapMarket.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_UserId",
-                table: "Customers",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Listings_CategoryId",
                 table: "Listings",
                 column: "CategoryId");
@@ -319,11 +274,6 @@ namespace TapMarket.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Listings_CustomerId",
                 table: "Listings",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_CustomerId",
-                table: "Messages",
                 column: "CustomerId");
         }
 
@@ -348,22 +298,16 @@ namespace TapMarket.Data.Migrations
                 name: "Listings");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Conditions");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

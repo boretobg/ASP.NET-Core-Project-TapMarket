@@ -17,8 +17,8 @@
 
         public class Customer
         {
-            public const int UsernameMaxLength = 20;
-            public const int UsernameMinLength = 5;
+            public const int NameMaxLength = 20;
+            public const int NameMinLength = 5;
 
             public const int AddressMaxLength = 30;
             public const int AddressMinLength = 5;

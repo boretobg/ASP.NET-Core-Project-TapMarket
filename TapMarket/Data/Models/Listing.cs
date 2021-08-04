@@ -32,7 +32,7 @@
         public int ConditionId { get; set; }
         public Condition Condition { get; set; }
 
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
         public Customer Customer { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace TapMarket
     using Microsoft.Extensions.Hosting;
     using System.Security.Claims;
     using TapMarket.Data;
+    using TapMarket.Hubs;
     using TapMarket.Infrastructure;
 
     public class Startup
@@ -42,6 +43,9 @@ namespace TapMarket
             services
                 .Configure<IdentityOptions>(options =>
                     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
+
+            services
+                .AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -71,6 +75,8 @@ namespace TapMarket
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
+
+                    endpoints.MapHub<ChatHub>("/chathub");
                 });
         }
     }

@@ -63,7 +63,6 @@
                 .Where(c => c.Listings.Any(l => l.Id == listing.Id))
                 .Select(c => new ProfileListingDetailsViewModel
                 {
-                    Username = c.Username,
                     Address = c.Address,
                     City = c.City,
                     PhoneNumber = c.PhoneNumber,
@@ -87,7 +86,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.data.Customers.Any(c => c.UserId == this.User.GetId()))
+            if (!this.data.Customers.Any(c => c.Id == this.User.GetId()))
             {
                 return Redirect("/Customer/Additional");
             }
@@ -124,7 +123,7 @@
             var customerId = this
                 .data
                 .Customers
-                .Where(c => c.UserId == this.User.GetId())
+                .Where(c => c.Id == this.User.GetId())
                 .Select(c => c.Id)
                 .FirstOrDefault();
 

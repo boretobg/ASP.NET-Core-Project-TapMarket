@@ -5,7 +5,9 @@ namespace TapMarket.Models.Customer
 {
     public class ProfileViewModel
     {
-        public string Username { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public string Address { get; set; }
 

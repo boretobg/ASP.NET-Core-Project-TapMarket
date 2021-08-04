@@ -51,7 +51,7 @@
             }
 
             ViewBag.SearchedListings = searchedListings;
-            ViewBag.Customer = this.data.Customers.Where(c => c.UserId == this.User.GetId()).FirstOrDefault();
+            ViewBag.Customer = this.data.Customers.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
 
             return View();
         }
@@ -74,7 +74,7 @@
             var shuffledListings = listings.OrderBy(c => rnd.Next()).ToList();
 
             ViewBag.ShuffledListings = shuffledListings;
-            ViewBag.Customer = this.data.Customers.Where(c => c.UserId == this.User.GetId()).FirstOrDefault();
+            ViewBag.Customer = this.data.Customers.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
 
             return View();
         }

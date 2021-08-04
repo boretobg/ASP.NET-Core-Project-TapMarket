@@ -1,18 +1,20 @@
 ﻿namespace TapMarket.Data.Models
 {
+    using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants.Customer;
 
-    public class Customer
+    public class Customer : IdentityUser
     {
-        [Key]
-        public int Id { get; init; } 
+        [Required]
+        [MaxLength(NameMaxLength)]
+        public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(UsernameMaxLength)]
-        public string Username { get; set; }
+        [MaxLength(NameMaxLength)]
+        public string LastName { get; set; }
 
         [Required]
         [MaxLength(AddressMaxLength)]
@@ -23,17 +25,9 @@
         public string City { get; set; }
 
         [Required]
-        [Phone]
-        public string PhoneNumber { get; set; }
-
-        [Required]
         [Url]
         public string PictureUrl { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
-
         public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
-        public IEnumerable<Message> Messages { get; set; } = new List<Message>();
     }
 }

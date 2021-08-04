@@ -1,10 +1,8 @@
 ﻿namespace TapMarket.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using TapMarket.Data;
-    using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
     using TapMarket.Models.Customer;
     using TapMarket.Models.Listing;
@@ -18,47 +16,12 @@
             this.data = data;
         }
 
-        [Authorize]
-        public IActionResult Additional()
-            => View();
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult Additional(AdditionalInfoFormModel customerInfo)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(customerInfo);
-            }
-
-
-            var customer = new Customer
-            {
-                Username = customerInfo.Username,
-                PhoneNumber = customerInfo.PhoneNumber,
-                Address = customerInfo.Address,
-                City = customerInfo.City,
-                PictureUrl = customerInfo.PictureUrl,
-                UserId = this.User.GetId()
-            };
-
-            this.data.Customers.Add(customer);
-            this.data.SaveChanges();
-
-            return Redirect("/Listing/Add");
-        }
-
         public IActionResult Profile()
         {
-            if (!this.data.Customers.Any(c => c.UserId == this.User.GetId()))
-            {
-                return Redirect("/Customer/Additional");
-            }
-
             var listingsQuery = this.data.Listings.AsQueryable();
 
             var listings = listingsQuery
-                .Where(c => c.Customer.UserId == this.User.GetId())
+                .Where(c => c.Customer.Id == this.User.GetId())
                 .Select(l => new ListingViewModel
                 {
                     Id = l.Id,
@@ -70,10 +33,11 @@
 
             var customer = this.data
                 .Customers
-                .Where(c => c.UserId == this.User.GetId())
+                .Where(c => c.Id == this.User.GetId())
                 .Select(c => new ProfileViewModel
                 { 
-                    Username = c.Username,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
                     Address = c.Address,
                     City = c.City,
                     PhoneNumber = c.PhoneNumber,

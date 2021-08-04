@@ -16,7 +16,7 @@ namespace TapMarket.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -82,6 +82,10 @@ namespace TapMarket.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -133,6 +137,8 @@ namespace TapMarket.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -253,48 +259,6 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Conditions");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PictureUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Customers");
-                });
-
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.Property<int>("Id")
@@ -311,8 +275,8 @@ namespace TapMarket.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -342,29 +306,35 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Listings");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("SentOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasIndex("CustomerId");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.ToTable("Messages");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Customer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -418,15 +388,6 @@ namespace TapMarket.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("TapMarket.Data.Models.Customer", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.HasOne("TapMarket.Data.Models.Category", "Category")
@@ -444,8 +405,7 @@ namespace TapMarket.Data.Migrations
                     b.HasOne("TapMarket.Data.Models.Customer", "Customer")
                         .WithMany("Listings")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 
@@ -454,15 +414,13 @@ namespace TapMarket.Data.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
-                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
-                        .WithMany("Messages")
-                        .HasForeignKey("CustomerId")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("TapMarket.Data.Models.Customer", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
@@ -478,8 +436,6 @@ namespace TapMarket.Data.Migrations
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
                     b.Navigation("Listings");
-
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
