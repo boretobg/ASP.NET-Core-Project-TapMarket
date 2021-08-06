@@ -1,25 +1,20 @@
 ﻿namespace TapMarket.Services
 {
-    using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using TapMarket.Data;
-    using TapMarket.Infrastructure;
     using TapMarket.Models.Listing;
 
-    public class ListingService : Controller, IListingService
+    public class ListingService : IListingService
     {
         private TapMarketDbContext data;
 
         public ListingService(TapMarketDbContext data) 
             => this.data = data;
 
-        public ICollection<ListingViewModel> GetListings()
+        public ICollection<ListingViewModel> GetListings(string userId)
         {
             var listingsQuery = this.data.Listings.AsQueryable();
-
-            var userId = this.User.GetId();
 
             var listings = listingsQuery
                 .Where(c => c.Customer.Id == userId)

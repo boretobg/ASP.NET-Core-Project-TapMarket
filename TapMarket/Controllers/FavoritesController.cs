@@ -2,10 +2,8 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
-    using TapMarket.Models.Customer;
     using TapMarket.Services;
 
     public class FavoritesController : Controller
@@ -19,12 +17,13 @@
             this.listingService = listingService;
         }
 
-        [Authorize]
-        public IActionResult All(string customerId)
-        {
-            var listings = this.listingService.GetListings();
 
-            return View();
+        [Authorize]
+        public IActionResult All()
+        {
+            var listings = this.listingService.GetListings(this.User.GetId());
+
+            return View(listings);
         }
     }
 }

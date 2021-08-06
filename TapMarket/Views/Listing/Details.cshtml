@@ -14,7 +14,26 @@
                         <img class="card-img" src="@listing.ImageUrl">
                         <div class="card-body">
 
-                            <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
+
+                            <div class="row">
+                                <div class="col-8">
+                                    <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
+                                </div>
+                                <div class="col-4">
+                                    <input class="btn btn-sm btn-block btn-warning" type="button" value="Add to favorites" onclick="return favorites(this);" />
+
+                                    <script type="text/javascript">
+                                function favorites(el)
+                                {
+                                    if (el.value === "Add to favorites")
+                                        el.value = "Remove from favorites";
+                                    else
+                                        el.value = "Add to favorites";
+                                }
+                                    </script>
+
+                                </div>
+                            </div>
 
                             <h1 class="card-title"> @listing.Title </h1>
                             <h3 class="card-title"> <b>$@listing.Price</b></h3>

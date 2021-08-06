@@ -1,12 +1,10 @@
 ﻿namespace TapMarket.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
     using System.Linq;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
     using TapMarket.Models.Customer;
-    using TapMarket.Models.Listing;
     using TapMarket.Services;
 
     public class CustomerController : Controller
@@ -22,14 +20,14 @@
 
         public IActionResult Listings()
         {
-            var listings = this.listingService.GetListings();
+            var listings = this.listingService.GetListings(this.User.GetId());
 
             return View(listings);
         }
 
         public IActionResult Profile()
         {
-            var listings = this.listingService.GetListings();
+            var listings = this.listingService.GetListings(this.User.GetId());
 
             var customer = this.data
                 .Customers

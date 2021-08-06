@@ -1,1 +1,20 @@
-﻿<h1>àll favorites</h1>
+﻿
+
+<h1 class="text-center">All favorites</h1>
+
+<div class="row">
+    @foreach (var listing in Model)
+    {
+        <div class="btn col-6 col-sm-3">
+            <div class="card" style="width: 16rem;">
+                <a href="/Listing/Details?listingId=@listing.Id" class="btn-light btn-light stretched-link">
+                    <img class="card-img-top " src="@listing.ImageUrl" alt="Listing image">
+                    <div class="card-body">
+                        <h5 class="card-title">@listing.Title</h5>
+                        <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>

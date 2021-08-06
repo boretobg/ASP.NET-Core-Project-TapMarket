@@ -5,6 +5,6 @@
 
     public interface IListingService
     {
-        public ICollection<ListingViewModel> GetListings();
+        public ICollection<ListingViewModel> GetListings(string userId);
     }
 }
