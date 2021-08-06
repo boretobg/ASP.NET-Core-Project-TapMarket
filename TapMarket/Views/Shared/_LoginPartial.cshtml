@@ -1,6 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
+@model TapMarket.Models.Favorites.FavoritesViewModel
+
+@{
+    var customer = ViewBag.Customer;
+}
 
 <ul class="navbar-nav">
 
@@ -21,7 +28,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <a asp-controller="Customer" asp-action="Listings" class="dropdown-item">My listings</a>
-                    <a class="dropdown-item" href="#">Favorites</a>
+                    <a href="/Favorites/All?customerId=@customer.Id" class="dropdown-item">Favorites</a>
                     <a class="dropdown-item" href="#">Messages</a>
                     <a asp-controller="Customer" asp-action="Profile" class="dropdown-item">Settings</a>
                 </div>

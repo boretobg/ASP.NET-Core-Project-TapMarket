@@ -7,26 +7,29 @@
     using TapMarket.Infrastructure;
     using TapMarket.Models.Customer;
     using TapMarket.Models.Listing;
+    using TapMarket.Services;
 
     public class CustomerController : Controller
     {
         private readonly TapMarketDbContext data;
+        private readonly IListingService listingService;
 
-        public CustomerController(TapMarketDbContext data)
+        public CustomerController(TapMarketDbContext data, IListingService listingService)
         {
             this.data = data;
+            this.listingService = listingService;
         }
 
         public IActionResult Listings()
         {
-            var listings = GetListings();
+            var listings = this.listingService.GetListings();
 
             return View(listings);
         }
 
         public IActionResult Profile()
         {
-            var listings = GetListings();
+            var listings = this.listingService.GetListings();
 
             var customer = this.data
                 .Customers
@@ -47,24 +50,6 @@
             ViewBag.Listings = listings;
 
             return View();
-        }
-
-        public ICollection<ListingViewModel> GetListings()
-        {
-            var listingsQuery = this.data.Listings.AsQueryable();
-
-            var listings = listingsQuery
-                .Where(c => c.Customer.Id == this.User.GetId())
-                .Select(l => new ListingViewModel
-                {
-                    Id = l.Id,
-                    Title = l.Title,
-                    Price = l.Price,
-                    Condition = l.Condition.Name,
-                    ImageUrl = l.ImageUrl
-                }).ToList();
-
-            return listings;
         }
     }
 }

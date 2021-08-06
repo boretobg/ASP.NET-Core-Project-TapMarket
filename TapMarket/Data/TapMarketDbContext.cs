@@ -16,6 +16,8 @@ namespace TapMarket.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Condition> Conditions { get; set; }
+        public DbSet<Favorites> Favorites { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -51,6 +53,17 @@ namespace TapMarket.Data
                 .WithOne()
                 .HasForeignKey<Customer>(c => c.Id)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Message>()
+                .HasOne(c => c.Sender)
+                .WithMany(m => m.Messages)
+                .HasForeignKey(c => c.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Favorites>()
+                .HasNoKey();
 
             base.OnModelCreating(builder);
         }

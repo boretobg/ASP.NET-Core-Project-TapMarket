@@ -11,6 +11,7 @@ namespace TapMarket
     using TapMarket.Data;
     using TapMarket.Hubs;
     using TapMarket.Infrastructure;
+    using TapMarket.Services;
 
     public class Startup
     {
@@ -46,6 +47,9 @@ namespace TapMarket
 
             services
                 .AddSignalR();
+
+            services
+                .AddTransient<IListingService, ListingService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,7 +80,7 @@ namespace TapMarket
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
 
-                    endpoints.MapHub<ChatHub>("/chathub");
+                    endpoints.MapHub<ChatHub>("/Message/Index");
                 });
         }
     }

@@ -29,5 +29,7 @@
         public string PictureUrl { get; set; }
 
         public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
+
+        public virtual IEnumerable<Message> Messages { get; set; } = new List<Message>();
     }
 }

@@ -259,6 +259,21 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Conditions");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Favorites", b =>
+                {
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ListingId");
+
+                    b.ToTable("Favorites");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.Property<int>("Id")
@@ -304,6 +319,36 @@ namespace TapMarket.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Listings");
+                });
+
+            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SentOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
@@ -388,6 +433,23 @@ namespace TapMarket.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Favorites", b =>
+                {
+                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("TapMarket.Data.Models.Listing", "Listing")
+                        .WithMany()
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Listing");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.HasOne("TapMarket.Data.Models.Category", "Category")
@@ -414,6 +476,16 @@ namespace TapMarket.Data.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+                {
+                    b.HasOne("TapMarket.Data.Models.Customer", "Sender")
+                        .WithMany("Messages")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
@@ -436,6 +508,8 @@ namespace TapMarket.Data.Migrations
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
                     b.Navigation("Listings");
+
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
