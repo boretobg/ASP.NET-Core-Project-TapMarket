@@ -1,4 +1,6 @@
-﻿@{
+﻿@model TapMarket.Models.Listing.ListingDetailFormModel
+
+@{
     var listing = ViewBag.Listing;
     var customer = ViewBag.Customer;
 }
@@ -13,28 +15,40 @@
 
                         <img class="card-img" src="@listing.ImageUrl">
                         <div class="card-body">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
+                                    </div>
+                                    <div class="col-4">
+                                        @if (listing.IsFavorite)
+                                        {
+                                            <input asp-for="Command" class="btn btn-sm btn-block btn-warning" type="submit" value="Remove from favorites" onclick="return favorites(this);" />
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="Command" class="btn btn-sm btn-block btn-warning" type="submit" value="Add to favorites" onclick="return favorites(this);" />
+                                        }
 
+                                        <input asp-for="ListingId" value="@listing.Id" />
 
-                            <div class="row">
-                                <div class="col-8">
-                                    <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
+                                        <script type="text/javascript">
+                                            function favorites(el)
+                                            {
+                                                if (el.value === "Add to favorites")
+                                                {
+                                                    el.value = "Remove from favorites";
+                                                }
+                                                else
+                                                {
+                                                    el.value = "Add to favorites";
+                                                }
+                                            }
+                                        </script>
+
+                                    </div>
                                 </div>
-                                <div class="col-4">
-                                    <input class="btn btn-sm btn-block btn-warning" type="button" value="Add to favorites" onclick="return favorites(this);" />
-
-                                    <script type="text/javascript">
-                                function favorites(el)
-                                {
-                                    if (el.value === "Add to favorites")
-                                        el.value = "Remove from favorites";
-                                    else
-                                        el.value = "Add to favorites";
-                                }
-                                    </script>
-
-                                </div>
-                            </div>
-
+                            </form>
                             <h1 class="card-title"> @listing.Title </h1>
                             <h3 class="card-title"> <b>$@listing.Price</b></h3>
 

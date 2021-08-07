@@ -35,10 +35,24 @@
             return Redirect("/Customer/Profile");
         }
 
+        [Authorize]
         [HttpPost]
-        public IActionResult Details()
+        public IActionResult Details(ListingDetailFormModel info)
         {
-            return View();
+            var listing = this.data.Listings.Where(l => l.Id == info.ListingId).FirstOrDefault();
+
+            if (info.Command == "Add to favorites")
+            {
+                listing.IsFavorite = false;
+            }
+            else if (info.Command == "Remove from favorites")
+            {
+                listing.IsFavorite = true;
+            }
+
+            this.data.SaveChanges();
+
+            return Redirect($"/Listing/Details?listingId={info.ListingId}");
         }
 
         [Authorize]
@@ -55,7 +69,8 @@
                     Description = l.Description,
                     Category = l.Category.Name,
                     Condition = l.Condition.Name,
-                    CreatedOn = l.CreatedOn
+                    CreatedOn = l.CreatedOn,
+                    IsFavorite = l.IsFavorite
                 }).FirstOrDefault();
 
             var customer = this.data

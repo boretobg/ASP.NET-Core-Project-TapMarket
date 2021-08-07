@@ -34,5 +34,8 @@
 
         public string CustomerId { get; set; }
         public Customer Customer { get; set; }
+
+        public bool IsFavorite { get; set; } = false;
+
     }
 }

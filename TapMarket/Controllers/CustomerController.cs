@@ -1,5 +1,6 @@
 ﻿namespace TapMarket.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using TapMarket.Data;
@@ -18,13 +19,15 @@
             this.listingService = listingService;
         }
 
+        [Authorize]
         public IActionResult Listings()
         {
             var listings = this.listingService.GetListings(this.User.GetId());
 
             return View(listings);
         }
-
+        
+        [Authorize]
         public IActionResult Profile()
         {
             var listings = this.listingService.GetListings(this.User.GetId());

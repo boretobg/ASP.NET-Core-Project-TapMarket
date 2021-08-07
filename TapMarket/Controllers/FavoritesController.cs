@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
     using TapMarket.Services;
@@ -21,7 +22,9 @@
         [Authorize]
         public IActionResult All()
         {
-            var listings = this.listingService.GetListings(this.User.GetId());
+            var listings = this.listingService
+                .GetListings(this.User.GetId())
+                .Where(l => l.IsFavorite);
 
             return View(listings);
         }
