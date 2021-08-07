@@ -15,10 +15,8 @@
     {
         private readonly TapMarketDbContext data;
 
-        public ListingController(TapMarketDbContext data)
-        {
-            this.data = data;
-        }
+        public ListingController(TapMarketDbContext data) 
+            => this.data = data;
 
         [Authorize]
         public IActionResult Delete(int listingId)
@@ -39,15 +37,28 @@
         [HttpPost]
         public IActionResult Details(ListingDetailFormModel info)
         {
-            var listing = this.data.Listings.Where(l => l.Id == info.ListingId).FirstOrDefault();
-
             if (info.Command == "Add to favorites")
             {
-                listing.IsFavorite = false;
+                var favorite = this.data
+                    .Favorites
+                    .Where(f => f.CustomerId == info.CustomerId && f.ListingId == info.ListingId)
+                    .FirstOrDefault();
+
+                if (favorite != null)
+                {
+                    this.data.Favorites.Remove(favorite);
+
+                }
             }
             else if (info.Command == "Remove from favorites")
             {
-                listing.IsFavorite = true;
+                var favorite = new Favorite
+                {
+                    CustomerId = info.CustomerId,
+                    ListingId = info.ListingId,
+                };
+
+                this.data.Favorites.Add(favorite);
             }
 
             this.data.SaveChanges();
@@ -70,7 +81,6 @@
                     Category = l.Category.Name,
                     Condition = l.Condition.Name,
                     CreatedOn = l.CreatedOn,
-                    IsFavorite = l.IsFavorite
                 }).FirstOrDefault();
 
             var customer = this.data
@@ -82,18 +92,31 @@
                     City = c.City,
                     PhoneNumber = c.PhoneNumber,
                     PictureUrl = c.PictureUrl,
-                    ListingId = listing.Id
+                    ListingId = listing.Id,
+                    Email = c.Email
                 }).FirstOrDefault();
 
 
-            //this might not work in some cases?? idk
             if (listing == null || customer == null)
             {
                 return Redirect("/Home/Index");
             }
 
+            var isFavorite = false;
+            var favorite = this.data
+                .Favorites
+                .Where(x => x.CustomerId == this.User.GetId() && x.ListingId == listing.Id)
+                .FirstOrDefault();
+
+            if (favorite != null)
+            {
+                isFavorite = true;
+            }
+            
             ViewBag.Listing = listing;
+            ViewBag.IsFavorite = isFavorite;
             ViewBag.Customer = customer;
+            ViewBag.UserId = this.User.GetId();
 
             return View();
         }
@@ -133,7 +156,6 @@
 
                 return View(listing);
             }
-
 
             var customerId = this
                 .data

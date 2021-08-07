@@ -2,7 +2,9 @@
 
 @{
     var listing = ViewBag.Listing;
+    var isFavorite = ViewBag.IsFavorite;
     var customer = ViewBag.Customer;
+    var userId = ViewBag.UserId;
 }
 
 <div class="container">
@@ -21,7 +23,7 @@
                                         <p class="card-text"><small class="text-muted">Published on @listing.CreatedOn </small> </p>
                                     </div>
                                     <div class="col-4">
-                                        @if (listing.IsFavorite)
+                                        @if (isFavorite)
                                         {
                                             <input asp-for="Command" class="btn btn-sm btn-block btn-warning" type="submit" value="Remove from favorites" onclick="return favorites(this);" />
                                         }
@@ -30,17 +32,15 @@
                                             <input asp-for="Command" class="btn btn-sm btn-block btn-warning" type="submit" value="Add to favorites" onclick="return favorites(this);" />
                                         }
 
-                                        <input asp-for="ListingId" value="@listing.Id" />
+                                        <input type="hidden" asp-for="ListingId" value="@listing.Id" />
+                                        <input type="hidden" asp-for="CustomerId" value="@userId" />
 
                                         <script type="text/javascript">
-                                            function favorites(el)
-                                            {
-                                                if (el.value === "Add to favorites")
-                                                {
+                                            function favorites(el) {
+                                                if (el.value === "Add to favorites") {
                                                     el.value = "Remove from favorites";
                                                 }
-                                                else
-                                                {
+                                                else {
                                                     el.value = "Add to favorites";
                                                 }
                                             }
@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="col">
                             <center>
-                                <h6>@User.Identity.Name</h6>
+                                <h6>@customer.Email</h6>
                             </center>
                         </div>
                     </div>

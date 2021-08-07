@@ -28,8 +28,10 @@
         [Url]
         public string PictureUrl { get; set; }
 
-        public IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
+        public virtual IEnumerable<Listing> Listings { get; set; } = new List<Listing>();
 
         public virtual IEnumerable<Message> Messages { get; set; } = new List<Message>();
+
+        public virtual IEnumerable<Favorite> Favorites { get; set; } = new List<Favorite>();
     }
 }

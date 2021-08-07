@@ -1,6 +1,7 @@
 ﻿namespace TapMarket.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -35,7 +36,6 @@
         public string CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        public bool IsFavorite { get; set; } = false;
-
+        public virtual IEnumerable<Favorite> Favorites { get; set; } = new List<Favorite>();
     }
 }
