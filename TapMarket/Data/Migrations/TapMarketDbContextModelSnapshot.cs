@@ -259,13 +259,20 @@ namespace TapMarket.Data.Migrations
                     b.ToTable("Conditions");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Favorites", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.Favorite", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
@@ -301,9 +308,6 @@ namespace TapMarket.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsFavorite")
-                        .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,0)");
@@ -436,14 +440,14 @@ namespace TapMarket.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Favorites", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.Favorite", b =>
                 {
                     b.HasOne("TapMarket.Data.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Favorites")
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("TapMarket.Data.Models.Listing", "Listing")
-                        .WithMany()
+                        .WithMany("Favorites")
                         .HasForeignKey("ListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -508,8 +512,15 @@ namespace TapMarket.Data.Migrations
                     b.Navigation("Listings");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
+                {
+                    b.Navigation("Favorites");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("Listings");
 
                     b.Navigation("Messages");

@@ -2,9 +2,12 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
     using System.Linq;
     using TapMarket.Data;
+    using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
+    using TapMarket.Models.Listing;
     using TapMarket.Services;
 
     public class FavoritesController : Controller
@@ -22,9 +25,33 @@
         [Authorize]
         public IActionResult All()
         {
-            var listings = this.listingService
-                .GetListings(this.User.GetId())
-                .Where(l => l.IsFavorite);
+            var favorites = this.data
+                .Favorites
+                .Where(f => f.CustomerId == this.User.GetId())
+                .ToList();
+
+            var listings = new List<ListingViewModel>();
+
+            foreach (var favorite in favorites)
+            {
+                var tempListing = this.data
+                    .Listings
+                    .Where(x => x.Id == favorite.ListingId)
+                    .Select(l => new ListingViewModel
+                    { 
+                        Id = l.Id,
+                        Title = l.Title,
+                        ImageUrl = l.ImageUrl,
+                        Condition = l.Condition.Name,
+                        Price = l.Price
+                    })
+                    .FirstOrDefault();
+
+                if (tempListing != null)
+                {
+                    listings.Add(tempListing);
+                }
+            }
 
             return View(listings);
         }
