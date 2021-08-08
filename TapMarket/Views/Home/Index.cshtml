@@ -41,19 +41,51 @@
     }
 
     <br />
+    @*<form method="post">
+            <div class="input-group mb-3">
+                <input asp-for="SearchInput" type="text" class="form-control" placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <input class="btn btn-info float-left" type="submit" value="Search">
+                </div>
+            </div>
+        </form>*@
+
     <form method="post">
-        <div class="input-group mb-3">
-            <input asp-for="SearchInput" type="text" class="form-control" placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
-            <div class="input-group-append">
+        <div class="row">
+
+            <div class="col-8">
+                <input asp-for="SearchInput" type="text" class="form-control" placeholder="What are you looking for?" aria-label="Search bar" aria-describedby="basic-addon2">
+            </div>
+
+            <div class="col-md-2">
+                <div class="row">
+                    <select asp-for="CategoryId" class="form-control">
+                        <option selected>Choose...</option>
+                        @foreach (var category in Model.Categories.OrderBy(c => c.Id))
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col col-lg-2">
                 <input class="btn btn-info float-left" type="submit" value="Search">
             </div>
+
         </div>
     </form>
+
 </div>
 
 
 @if (searchedListings == null)
 {
+    if (shuffledListings == null)
+    {
+        <h2 style="margin-top:70px;text-align:center;">No listings yet, be the first!</h2>
+    }
+
     finalListings = shuffledListings;
     if (finalListings.Count == 0)
     {
