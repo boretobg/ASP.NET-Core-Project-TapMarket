@@ -8,7 +8,7 @@
 @{
     ViewData["Title"] = "Home Page";
 
-    var shuffledListings = ViewBag.ShuffledListings;
+    var listings = ViewBag.Listings;
     var customer = ViewBag.Customer;
 
     var searchedListings = ViewBag.SearchedListings;
@@ -81,12 +81,12 @@
 
 @if (searchedListings == null)
 {
-    if (shuffledListings == null)
+    if (listings == null)
     {
         <h2 style="margin-top:70px;text-align:center;">No listings yet, be the first!</h2>
     }
 
-    finalListings = shuffledListings;
+    finalListings = listings;
     if (finalListings.Count == 0)
     {
         <h2 style="margin-top:70px;text-align:center;">No listings yet, be the first!</h2>
@@ -112,7 +112,7 @@ else
         <div class="btn col-6 col-sm-3">
             <div class="card" style="width: 16rem;">
                 <a href="/Listing/Details?listingId=@listing.Id" class="btn-light btn-light stretched-link">
-                    <img class="card-img-top " src="@listing.ImageUrl" alt="Listing image">
+                    <img class="card-img-top" src="@listing.ImageUrl" alt="Listing image">
                     <div class="card-body">
                         <h5 class="card-title">@listing.Title</h5>
                         <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>

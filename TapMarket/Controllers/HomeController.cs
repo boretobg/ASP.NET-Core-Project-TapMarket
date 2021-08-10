@@ -103,13 +103,13 @@
                     Title = l.Title,
                     Price = l.Price,
                     Condition = l.Condition.Name,
-                    ImageUrl = l.ImageUrl
-                }).ToList();
+                    ImageUrl = l.ImageUrl,
+                    CreatedOn = l.CreatedOn
+                })
+                .OrderByDescending(c => c.CreatedOn)
+                .ToList();
 
-            var rnd = new Random();
-            var shuffledListings = listings.OrderBy(c => rnd.Next()).ToList();
-
-            ViewBag.ShuffledListings = shuffledListings;
+            ViewBag.Listings = listings;
             ViewBag.Customer = this.data.Customers.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
 
             return View(new HomeFormModel
