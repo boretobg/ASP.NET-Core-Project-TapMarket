@@ -1,4 +1,6 @@
-﻿namespace TapMarket.Models.Listing
+﻿using System;
+
+namespace TapMarket.Models.Listing
 {
     public class ListingViewModel
     {
@@ -13,5 +15,7 @@
         public string Condition { get; set; }
 
         public int CategoryId { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }
