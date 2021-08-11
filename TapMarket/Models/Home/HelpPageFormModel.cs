@@ -11,8 +11,15 @@
         public string Subject { get; set; }
 
         [Required]
+        public string SenderName { get; set; }
+
+        [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string SenderEmail { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string ReceiverEmail { get; set; }
 
         [Required]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength,

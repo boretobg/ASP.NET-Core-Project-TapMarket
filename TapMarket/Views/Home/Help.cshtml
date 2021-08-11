@@ -5,6 +5,10 @@
 
 @model TapMarket.Models.Home.HelpPageFormModel
 
+@{ 
+    var senderName = ViewBag.SenderName;
+}
+
 <div class="container">
     <div class="row">
         <div class="offset-md-2 col-md-8 col-sm-12">
@@ -20,9 +24,9 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label asp-for="Email">Email</label>
-                        <input asp-for="Email" class="form-control" value="@User.Identity.Name">
-                        <span asp-validation-for="Email" class="small text-danger"></span>
+                        <label asp-for="SenderEmail">Email</label>
+                        <input asp-for="SenderEmail" class="form-control" value="@User.Identity.Name">
+                        <span asp-validation-for="SenderEmail" class="small text-danger"></span>
                     </div>
                 </div>
 
@@ -31,6 +35,9 @@
                     <textarea asp-for="Content" rows="4" class="form-control" placeholder="How can we help you?"></textarea>
                     <span asp-validation-for="Content" class="small text-danger"></span>
                 </div>
+
+                <input asp-for="ReceiverEmail" type="hidden" value="tapmarketproject@gmail.com">
+                <input asp-for="SenderName" type="hidden" value="@senderName">
 
                 <button type="submit" class="btn btn-info">Send</button>
 
