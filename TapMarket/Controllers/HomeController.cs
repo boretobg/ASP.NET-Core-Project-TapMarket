@@ -1,7 +1,7 @@
 ﻿namespace TapMarket.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -10,14 +10,17 @@
     using TapMarket.Models;
     using TapMarket.Models.Home;
     using TapMarket.Models.Listing;
+    using TapMarket.Services;
 
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
+        private readonly IEmailService emailService;
 
-        public HomeController(TapMarketDbContext data)
+        public HomeController(TapMarketDbContext data, IEmailService emailService)
         {
             this.data = data;
+            this.emailService = emailService;
         }
 
         [HttpPost]
@@ -118,9 +121,27 @@
             });
         }
 
-        public IActionResult Help() => View();
+        [Authorize]
+        public IActionResult Help()
+        {
+            var senderName = this.data
+                .Customers
+                .Where(c => c.Id == this.User.GetId())
+                .Select(x => $"{x.FirstName} {x.LastName}")
+                .FirstOrDefault();
+
+            if (senderName is null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            ViewBag.SenderName = senderName;
+
+            return View();
+        }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Help(HelpPageFormModel info)
         {
             if (!ModelState.IsValid)
@@ -128,6 +149,16 @@
                 return View(info);
             }
 
+            string senderEmail = info.SenderEmail;
+            string senderName = info.SenderName;
+
+            string receiverEmail = info.ReceiverEmail;
+            string receiverName = receiverEmail.Split('@')[0];
+
+            string subject = info.Subject;
+            string content = info.Content;
+            
+            emailService.SendEmail(senderName, senderEmail, receiverName, receiverEmail, subject, content);
 
             return View();
         }
