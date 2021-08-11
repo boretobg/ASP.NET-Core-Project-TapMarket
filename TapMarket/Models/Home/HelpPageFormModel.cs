@@ -7,7 +7,7 @@
     public class HelpPageFormModel
     {
         [Required]
-        [MaxLength(TitleMaxLength, ErrorMessage = "Title can't be more than {0} characters.")]
+        [MaxLength(TitleMaxLength, ErrorMessage = "Subject can't be more than {0} characters.")]
         public string Subject { get; set; }
 
         [Required]
@@ -16,7 +16,7 @@
 
         [Required]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength,
-            ErrorMessage = "Title must be between {2} and {1} characters.")]
+            ErrorMessage = "Content must be between {2} and {1} characters.")]
         public string Content { get; set; }
     }
 }
