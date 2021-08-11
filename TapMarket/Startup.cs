@@ -50,6 +50,9 @@ namespace TapMarket
 
             services
                 .AddTransient<IListingService, ListingService>();
+            
+            services
+                .AddTransient<IEmailService, EmailService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
