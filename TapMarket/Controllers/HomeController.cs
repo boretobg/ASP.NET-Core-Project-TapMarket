@@ -23,6 +23,9 @@
             this.emailService = emailService;
         }
 
+        public IActionResult Success()
+            => View();
+
         [HttpPost]
         public IActionResult Index(HomeFormModel homeInfo)
         {
@@ -158,9 +161,9 @@
             string subject = info.Subject;
             string content = info.Content;
             
-            emailService.SendEmail(senderName, senderEmail, receiverName, receiverEmail, subject, content);
+            emailService.SendEmail(senderName, senderEmail, receiverName, receiverEmail, subject, content).Wait();
 
-            return View();
+            return Redirect("/Home/Success");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
