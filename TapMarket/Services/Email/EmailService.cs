@@ -15,12 +15,10 @@
            string subject, 
            string content)
         {
-            var apiKey = "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";
+            var apiKey = Environment.GetEnvironmentVariable("TAP_MARKET_API");
             var client = new SendGridClient(apiKey);
 
             var from = new EmailAddress(senderAddres, senderName);
-
-           // var subject = "Sending with SendGrid is Fun";
 
             var to = new EmailAddress(receiverAddres, receiverName);
 
