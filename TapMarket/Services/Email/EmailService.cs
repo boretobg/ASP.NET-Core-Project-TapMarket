@@ -1,11 +1,13 @@
 ﻿namespace TapMarket.Services
 {
-    using MailKit.Net.Smtp;
-    using MimeKit;
+    using SendGrid;
+    using SendGrid.Helpers.Mail;
+    using System;
+    using System.Threading.Tasks;
 
     public class EmailService : IEmailService
     {
-       public void SendEmail(
+       public async Task SendEmail(
            string senderName, 
            string senderAddres,
            string receiverName, 
@@ -13,28 +15,20 @@
            string subject, 
            string content)
         {
-            MimeMessage message = new MimeMessage();
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
 
-            MailboxAddress from = new MailboxAddress(senderName, senderAddres);
-            message.From.Add(from);
+            var from = new EmailAddress(senderAddres, senderName);
 
-            MailboxAddress to = new MailboxAddress(receiverName, receiverAddres);
-            message.To.Add(to);
+           // var subject = "Sending with SendGrid is Fun";
 
-            message.Subject = subject;
+            var to = new EmailAddress(receiverAddres, receiverName);
 
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.TextBody = content;
+            var htmlContent = $"<p>{content}</p>";
 
-            message.Body = bodyBuilder.ToMessageBody();
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, content, htmlContent);
 
-            SmtpClient client = new SmtpClient();
-            client.Connect("smtp_gmail.com", 587, false);
-            client.Authenticate("user_name_here", "pwd_here"); //same as from
-
-            client.Send(message);
-            client.Disconnect(true);
-            client.Dispose();
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }
