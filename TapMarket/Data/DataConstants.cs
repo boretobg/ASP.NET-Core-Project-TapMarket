@@ -43,7 +43,7 @@
             public const int TitleMaxLength = 15;
 
             public const int DescriptionMaxLength = 500;
-            public const int DescriptionMinLength = 30;
+            public const int DescriptionMinLength = 5;
         }
 
         public class Message
