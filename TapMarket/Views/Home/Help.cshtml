@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using TapMarket.Data.Models
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @model TapMarket.Models.Home.HelpPageFormModel
 

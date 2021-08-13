@@ -1,14 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using TapMarket.Data.Models
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
 
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a asp-area="" asp-controller="Listing" asp-action="Add" title="Manage" class="btn btn-warning">Create listing</a>
+            <a asp-controller="Listing" asp-action="Add" title="Manage" class="btn btn-warning">Create listing</a>
         </li>
 
         <li class="nav-item">
@@ -21,10 +22,10 @@
                     Profile
                 </button>
                 <div class="dropdown-menu">
-                    <a asp-controller="Customer" asp-action="Listings" class="dropdown-item">My listings</a>
+                    <a asp-controller="User" asp-action="Listings" class="dropdown-item">My listings</a>
                     <a asp-controller="Favorites" asp-action="All" class="dropdown-item">Favorites</a>
                     <a class="dropdown-item" href="#">Messages</a>
-                    <a asp-controller="Customer" asp-action="Profile" class="dropdown-item">Settings</a>
+                    <a asp-controller="User" asp-action="Profile" class="dropdown-item">Manage</a>
                 </div>
             </div>
         </li>
