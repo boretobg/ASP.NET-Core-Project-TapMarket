@@ -14,7 +14,7 @@ namespace TapMarket.Data
 
         public DbSet<Listing> Listings { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
@@ -37,9 +37,9 @@ namespace TapMarket.Data
 
             builder
                 .Entity<Listing>()
-                .HasOne(c => c.Customer)
+                .HasOne(c => c.User)
                 .WithMany(c => c.Listings)
-                .HasForeignKey(c => c.CustomerId)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
@@ -48,17 +48,10 @@ namespace TapMarket.Data
                 .HasColumnType("decimal(18,0)");
 
             builder
-                .Entity<Customer>()
-                .HasOne<IdentityUser>()
-                .WithOne()
-                .HasForeignKey<Customer>(c => c.Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
                 .Entity<Message>()
                 .HasOne(c => c.Sender)
                 .WithMany(m => m.Messages)
-                .HasForeignKey(c => c.CustomerId)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

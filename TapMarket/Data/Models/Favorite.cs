@@ -11,6 +11,6 @@
         public Listing Listing { get; set; }
 
         public string CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public User Customer { get; set; }
     }
 }

@@ -297,9 +297,6 @@ namespace TapMarket.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(10000)
@@ -314,8 +311,11 @@ namespace TapMarket.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -323,7 +323,7 @@ namespace TapMarket.Data.Migrations
 
                     b.HasIndex("ConditionId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Listings");
                 });
@@ -335,9 +335,6 @@ namespace TapMarket.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("SentOn")
                         .HasColumnType("datetime2");
 
@@ -346,6 +343,9 @@ namespace TapMarket.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -353,12 +353,12 @@ namespace TapMarket.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -386,7 +386,7 @@ namespace TapMarket.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Customer");
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,7 +442,7 @@ namespace TapMarket.Data.Migrations
 
             modelBuilder.Entity("TapMarket.Data.Models.Favorite", b =>
                 {
-                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
+                    b.HasOne("TapMarket.Data.Models.User", "Customer")
                         .WithMany("Favorites")
                         .HasForeignKey("CustomerId");
 
@@ -471,35 +471,26 @@ namespace TapMarket.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TapMarket.Data.Models.Customer", "Customer")
+                    b.HasOne("TapMarket.Data.Models.User", "User")
                         .WithMany("Listings")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 
                     b.Navigation("Condition");
 
-                    b.Navigation("Customer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
                 {
-                    b.HasOne("TapMarket.Data.Models.Customer", "Sender")
+                    b.HasOne("TapMarket.Data.Models.User", "Sender")
                         .WithMany("Messages")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("TapMarket.Data.Models.Customer", "Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
@@ -517,7 +508,7 @@ namespace TapMarket.Data.Migrations
                     b.Navigation("Favorites");
                 });
 
-            modelBuilder.Entity("TapMarket.Data.Models.Customer", b =>
+            modelBuilder.Entity("TapMarket.Data.Models.User", b =>
                 {
                     b.Navigation("Favorites");
 

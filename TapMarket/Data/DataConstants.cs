@@ -52,5 +52,10 @@
 
             public const int UserNameMaxLength = 20;
         }
+
+        public class User
+        {
+            public const int FullNameMaxLength = 25;
+        }
     }
 }

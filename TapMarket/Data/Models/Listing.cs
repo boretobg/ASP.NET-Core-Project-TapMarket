@@ -33,8 +33,8 @@
         public int ConditionId { get; set; }
         public Condition Condition { get; set; }
 
-        public string CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
 
         public virtual IEnumerable<Favorite> Favorites { get; set; } = new List<Favorite>();
     }
