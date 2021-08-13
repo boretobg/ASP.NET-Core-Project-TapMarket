@@ -17,7 +17,7 @@
             var listingsQuery = this.data.Listings.AsQueryable();
 
             var listings = listingsQuery
-                .Where(c => c.Customer.Id == userId)
+                .Where(c => c.User.Id == userId)
                 .Select(l => new ListingViewModel
                 {
                     Id = l.Id,
