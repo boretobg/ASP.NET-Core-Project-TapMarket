@@ -30,7 +30,7 @@
 
             this.data.SaveChanges();
 
-            return Redirect("/Customer/Profile");
+            return Redirect("/User/Profile");
         }
 
         [Authorize]
@@ -84,7 +84,7 @@
                 }).FirstOrDefault();
 
             var customer = this.data
-                .Customers
+                .User
                 .Where(c => c.Listings.Any(l => l.Id == listing.Id))
                 .Select(c => new ProfileListingDetailsViewModel
                 {
@@ -124,9 +124,9 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.data.Customers.Any(c => c.Id == this.User.GetId()))
+            if (!this.data.User.Any(c => c.Id == this.User.GetId()))
             {
-                return Redirect("/Customer/Additional");
+                return Redirect("/User/Additional");
             }
 
             return View(new AddListingFormModel
@@ -159,7 +159,7 @@
 
             var customerId = this
                 .data
-                .Customers
+                .User
                 .Where(c => c.Id == this.User.GetId())
                 .Select(c => c.Id)
                 .FirstOrDefault();
@@ -174,7 +174,7 @@
                 Price = listing.Price,
                 ConditionId = listing.ConditionId,
                 CreatedOn = DateTime.UtcNow,
-                CustomerId = customerId
+                UserId = customerId
             };
 
             this.data.Listings.Add(listingData);

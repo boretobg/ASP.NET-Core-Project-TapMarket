@@ -90,7 +90,7 @@
             }
 
             ViewBag.SearchedListings = searchedListings;
-            ViewBag.Customer = this.data.Customers.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
+            ViewBag.Customer = this.data.User.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
 
             return View(new HomeFormModel
             {
@@ -116,7 +116,7 @@
                 .ToList();
 
             ViewBag.Listings = listings;
-            ViewBag.Customer = this.data.Customers.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
+            ViewBag.Customer = this.data.User.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
 
             return View(new HomeFormModel
             {
@@ -128,7 +128,7 @@
         public IActionResult Help()
         {
             var senderName = this.data
-                .Customers
+                .User
                 .Where(c => c.Id == this.User.GetId())
                 .Select(x => $"{x.FirstName} {x.LastName}")
                 .FirstOrDefault();
