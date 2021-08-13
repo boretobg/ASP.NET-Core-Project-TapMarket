@@ -1,22 +1,20 @@
 ﻿namespace TapMarket.Areas.Identity.Pages.Account
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.Extensions.Logging;
+    using TapMarket.Data.Models;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly SignInManager<User> signInManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager) 
+        public LoginModel(SignInManager<User> signInManager) 
             => this.signInManager = signInManager;
 
         [BindProperty]
@@ -61,7 +59,6 @@
 
             if (ModelState.IsValid)
             {
-               
                 var result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 
                 if (result.Succeeded)

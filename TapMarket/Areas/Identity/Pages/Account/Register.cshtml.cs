@@ -13,12 +13,12 @@
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -88,7 +88,7 @@
 
             if (ModelState.IsValid)
             {
-                var customer = new Customer
+                var user = new User
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
@@ -100,11 +100,11 @@
                     PictureUrl = Input.PictureUrl
                 };
 
-                var result = await userManager.CreateAsync(customer, Input.Password);
+                var result = await userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    await this.signInManager.SignInAsync(customer, isPersistent: false);
+                    await this.signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
 

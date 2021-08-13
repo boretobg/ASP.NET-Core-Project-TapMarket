@@ -7,8 +7,9 @@ namespace TapMarket
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using System.Security.Claims;
+    using System;
     using TapMarket.Data;
+    using TapMarket.Data.Models;
     using TapMarket.Hubs;
     using TapMarket.Infrastructure;
     using TapMarket.Services;
@@ -28,30 +29,24 @@ namespace TapMarket
                 .AddDbContext<TapMarketDbContext>(options => options
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services
-                .AddDatabaseDeveloperPageExceptionFilter();
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                     {
                         options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireUppercase = false;
+                        options.Password.RequireDigit = false;
                     })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<TapMarketDbContext>();
 
-            services
-                .AddControllersWithViews();
+            services.AddControllersWithViews();
+
+            services.AddSignalR();
 
             services
-                .Configure<IdentityOptions>(options =>
-                    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
-
-            services
-                .AddSignalR();
-
-            services
-                .AddTransient<IListingService, ListingService>();
-            
-            services
+                .AddTransient<IListingService, ListingService>()
                 .AddTransient<IEmailService, EmailService>();
         }
 
