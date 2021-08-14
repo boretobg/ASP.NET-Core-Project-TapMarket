@@ -46,8 +46,8 @@
 
                 searchedListings = this.data
                     .Listings
-                    .Where(l => l.Title.ToLower().Contains(homeInfo.SearchInput.ToLower())
-                        && l.CategoryId == homeInfo.CategoryId)
+                    .Where(l => l.Title.ToLower().Contains(homeInfo.SearchInput.ToLower()) 
+                            || l.Description.ToLower().Contains(homeInfo.SearchInput.ToLower()))
                     .Select(l => new ListingViewModel
                     {
                         Id = l.Id,
@@ -78,7 +78,7 @@
                 }
                 else
                 {
-                    searchedListings = searchedListings.Where(l => l.CategoryId == homeInfo.CategoryId).ToList();
+                    searchedListings.AddRange(searchedListings.Where(l => l.CategoryId == homeInfo.CategoryId).ToList());
                 }
 
                 flag = false;
