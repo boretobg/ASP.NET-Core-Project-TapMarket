@@ -1,1 +1,14 @@
-﻿
+﻿@model TapMarket.Models.Message.MessageIndexViewModel
+
+@if (Model is null)
+{
+    <div class="jumbotron text-center">
+        <h1 class="display-3">No messages</h1>
+        <p class="lead">You don't have any <strong>messages</strong> yet! </p>
+        <hr>
+    </div>
+}
+else
+{
+    <h1 class="text-center"> My Messages </h1>
+}
