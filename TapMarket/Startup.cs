@@ -7,10 +7,8 @@ namespace TapMarket
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using System;
     using TapMarket.Data;
     using TapMarket.Data.Models;
-    using TapMarket.Hubs;
     using TapMarket.Infrastructure;
     using TapMarket.Services;
 
@@ -42,7 +40,6 @@ namespace TapMarket
                 .AddEntityFrameworkStores<TapMarketDbContext>();
 
             services.AddControllersWithViews();
-
             services.AddSignalR();
 
             services
@@ -77,8 +74,6 @@ namespace TapMarket
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
-
-                    endpoints.MapHub<ChatHub>("/Message/Index");
                 });
         }
     }
