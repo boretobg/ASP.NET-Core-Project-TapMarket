@@ -17,5 +17,7 @@ namespace TapMarket.Models.Listing
         public int CategoryId { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public string UserId { get; set; }
     }
 }
