@@ -12,6 +12,8 @@
     using TapMarket.Models.Listing;
     using TapMarket.Services;
 
+    using static WebConstants;
+
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
@@ -55,7 +57,6 @@
                         ImageUrl = l.ImageUrl
                     })
                     .ToList();
-
             }
 
             if (homeInfo.CategoryId > 0)
@@ -115,8 +116,13 @@
                 .OrderByDescending(c => c.CreatedOn)
                 .ToList();
 
+            var customer = this.data
+                .User
+                .Where(c => c.Id == this.User.GetId())
+                .FirstOrDefault();
+
             ViewBag.Listings = listings;
-            ViewBag.Customer = this.data.User.Where(c => c.Id == this.User.GetId()).FirstOrDefault();
+            ViewBag.Customer = customer;
 
             return View(new HomeFormModel
             {

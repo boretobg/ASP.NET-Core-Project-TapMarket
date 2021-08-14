@@ -18,18 +18,64 @@
         public ListingController(TapMarketDbContext data) 
             => this.data = data;
 
+
+        //public IActionResult Edit(int listingId)
+        //{
+        //    var listing = this.data
+        //        .Listings
+        //        .Where(l => l.Id == listingId)
+        //        .FirstOrDefault();
+
+        //    if (listing == null)
+        //    {
+        //        return Redirect("/Home/Index");
+        //    }
+
+        //    return View(new AddListingFormModel
+        //    {
+        //        ImageUrl = listing.ImageUrl,
+        //        Price = listing.Price,
+        //        Description = listing.Description,
+        //        Title = listing.Title,
+        //        CategoryId = listing.CategoryId,
+        //        ConditionId = listing.ConditionId,
+        //        Categories = this.GetCategories(),
+        //        Conditions = this.GetConditions()
+        //    });
+        //}
+
+        //[HttpPost]
+        //[Authorize]
+        //public IActionResult Edit(AddListingFormModel listing)
+        //{
+        //    var editedListing = new Listing
+        //    {
+        //        Id = listing.Id,
+        //        Title = listing.Title,
+        //        ImageUrl = listing.ImageUrl,
+        //        Description = listing.Description,
+        //        CategoryId = listing.CategoryId,
+        //        Price = listing.Price,
+        //        ConditionId = listing.ConditionId,
+        //        CreatedOn = DateTime.UtcNow
+        //    };
+
+        //    this.data.Listings.Update(editedListing);
+        //    this.data.SaveChanges();
+
+        //    return Redirect($"/Listing/Details?listingId={editedListing.Id}");
+        //}
+
+        public IActionResult ModeratorDelete(int listingId)
+        {
+            DeleteListing(listingId);
+            return Redirect("/Home/Index");
+        }
+
         [Authorize]
         public IActionResult Delete(int listingId)
         {
-            var listing = this.data.Listings.Where(x => x.Id == listingId).FirstOrDefault();
-
-            if (listing != null)
-            {
-                this.data.Listings.Remove(listing);
-            }
-
-            this.data.SaveChanges();
-
+            DeleteListing(listingId);
             return Redirect("/User/Profile");
         }
 
@@ -124,11 +170,6 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.data.User.Any(c => c.Id == this.User.GetId()))
-            {
-                return Redirect("/User/Additional");
-            }
-
             return View(new AddListingFormModel
             {
                 Categories = this.GetCategories(),
@@ -157,13 +198,6 @@
                 return View(listing);
             }
 
-            var customerId = this
-                .data
-                .User
-                .Where(c => c.Id == this.User.GetId())
-                .Select(c => c.Id)
-                .FirstOrDefault();
-
             var listingData = new Listing
             {
                 Id = listing.Id,
@@ -174,7 +208,7 @@
                 Price = listing.Price,
                 ConditionId = listing.ConditionId,
                 CreatedOn = DateTime.UtcNow,
-                UserId = customerId
+                UserId = GetUserId()
             };
 
             this.data.Listings.Add(listingData);
@@ -204,5 +238,26 @@
                 Id = c.Id,
                 Name = c.Name
             }).ToList();
+
+        private string GetUserId()
+        {
+            return this.data
+                .User
+                .Where(c => c.Id == this.User.GetId())
+                .Select(c => c.Id)
+                .FirstOrDefault();
+        }
+
+        private void DeleteListing(int listingId)
+        {
+            var listing = this.data.Listings.Where(x => x.Id == listingId).FirstOrDefault();
+
+            if (listing != null)
+            {
+                this.data.Listings.Remove(listing);
+            }
+
+            this.data.SaveChanges();
+        }
     }
 }
