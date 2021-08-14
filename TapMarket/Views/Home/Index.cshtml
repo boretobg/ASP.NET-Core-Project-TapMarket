@@ -118,7 +118,16 @@ else
                         <h5 class="card-title">@listing.Title</h5>
                         <p class="card-text"> <b>$@listing.Price </b>- <i>@listing.Condition condition</i></p>
                     </div>
-                </a>
+                </a>    
+            </div>
+            <div style="width: 16rem;">
+                @if (SignInManager.IsSignedIn(this.User))
+                {
+                    @if (this.User.IsInRole(WebConstants.ModeratorRoleName))
+                    {
+                        <a href="/Listing/ModeratorDelete?listingId=@listing.Id" class="btn btn-danger btn-block" type="submit">Delete</a>
+                    }
+                }
             </div>
         </div>
     }
