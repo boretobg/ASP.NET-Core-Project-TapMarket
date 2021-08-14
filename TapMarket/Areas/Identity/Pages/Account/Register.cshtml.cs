@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using TapMarket.Data.Models;
 
-    using static Data.DataConstants.Customer;
+    using static Data.DataConstants.User;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
