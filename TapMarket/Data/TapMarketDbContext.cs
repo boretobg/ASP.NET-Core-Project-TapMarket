@@ -49,10 +49,9 @@ namespace TapMarket.Data
 
             builder
                 .Entity<Message>()
-                .HasOne(c => c.Sender)
-                .WithMany(m => m.Messages)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(m => m.Sender)
+                .WithMany(s => s.Messages)
+                .HasForeignKey(m => m.SenderId);
 
             base.OnModelCreating(builder);
         }
