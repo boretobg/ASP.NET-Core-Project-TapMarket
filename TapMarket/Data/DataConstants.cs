@@ -15,10 +15,10 @@
             public const int MaxLength = 25;
         }
 
-        public class Customer
+        public class User
         {
-            public const int NameMaxLength = 20;
-            public const int NameMinLength = 5;
+            public const int NameMaxLength = 25;
+            public const int NameMinLength = 3;
 
             public const int AddressMaxLength = 30;
             public const int AddressMinLength = 5;
@@ -51,11 +51,6 @@
             public const int TextMaxLength = 250;
 
             public const int UserNameMaxLength = 20;
-        }
-
-        public class User
-        {
-            public const int FullNameMaxLength = 25;
         }
     }
 }
