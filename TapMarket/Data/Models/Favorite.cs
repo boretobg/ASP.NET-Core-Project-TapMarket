@@ -10,7 +10,7 @@
         public int ListingId { get; set; }
         public Listing Listing { get; set; }
 
-        public string CustomerId { get; set; }
-        public User Customer { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }
