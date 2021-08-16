@@ -1,6 +1,11 @@
 ﻿@model TapMarket.Models.Message.MessageIndexViewModel
 
-@if (Model is null)
+@{
+    var messages = ViewBag.Messages;
+    var data = ViewBag.Data;
+}
+
+@if (messages is null)
 {
     <div class="jumbotron text-center">
         <h1 class="display-3">No messages</h1>
@@ -11,4 +16,21 @@
 else
 {
     <h1 class="text-center"> My Messages </h1>
+
+    @foreach (var message in messages)
+    {
+        <div class="card flex-row flex-wrap col-6 offset-3">
+            <div class="card-header  border-0">
+                <img src="@message.Receiver.PictureUrl" width="100">
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title" style="margin-top:10px;margin-bottom:5px">@message.Receiver.FirstName @message.Receiver.LastName</h4>
+                <p class="card-text text-muted" style="margin-bottom:5px">Last online: ????</p>
+                <a href="/Message/Details?receiverId=@message.Receiver.Id" class="btn btn-info" style="bottom:10px">See Messages</a>
+            </div>
+            <div class="w-100"></div>
+        </div>
+    }
 }
+
+

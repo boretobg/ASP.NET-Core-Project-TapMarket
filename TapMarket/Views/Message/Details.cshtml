@@ -1,0 +1,54 @@
+﻿@model TapMarket.Models.Message.MessageDetailsFormModel
+
+@{ var messages = ViewBag.Messages;
+                var senderId = ViewBag.SenderId;
+                var receiverId = ViewBag.ReceiverId; }
+
+<div>
+    <div class="padding">
+        <div class="row container justify-content-center">
+            <div class="col-md-12">
+                <div class="card card-bordered">
+                    <form method="post">
+                        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:500px !important;">
+                            @foreach (var message in messages)
+                            {
+                                @if (message.ReceiverId == senderId)
+                                {
+                                    <div class="media media-chat">
+                                        @*<img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">*@
+                                        <div class="media-body">
+                                            <p>@message.Text</p>
+                                            <p class="meta"><time>@message.SentOn</time></p>
+                                        </div>
+                                    </div> 
+                                }
+                                else
+                                {
+                                    <div class="media media-chat media-chat-reverse">
+                                        <div class="media-body">
+                                            <p>@message.Text</p>
+                                            <p class="meta"><time>@message.SentOn</time></p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="publisher bt-1 border-light">
+                            <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+
+                            <input type="hidden" asp-for="ReceiverId" value="@receiverId" />
+                            <input type="hidden" asp-for="UserId" value="@senderId" />
+
+                            <input asp-for="Message" class="publisher-input" type="text" placeholder="Write something">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
