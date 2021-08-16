@@ -76,5 +76,6 @@ namespace TapMarket
                     endpoints.MapRazorPages();
                 });
         }
+
     }
 }
