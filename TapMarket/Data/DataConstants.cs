@@ -49,6 +49,7 @@
         public class Message
         {
             public const int TextMaxLength = 250;
+            public const int TextMinLength = 2;
 
             public const int UserNameMaxLength = 20;
         }

@@ -336,7 +336,7 @@ namespace TapMarket.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ReceiverId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SenderId")
                         .HasColumnType("nvarchar(450)");
@@ -350,6 +350,8 @@ namespace TapMarket.Data.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
 
@@ -379,6 +381,9 @@ namespace TapMarket.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime>("LastOnline")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
@@ -483,9 +488,15 @@ namespace TapMarket.Data.Migrations
 
             modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
                 {
+                    b.HasOne("TapMarket.Data.Models.User", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId");
+
                     b.HasOne("TapMarket.Data.Models.User", "Sender")
                         .WithMany("Messages")
                         .HasForeignKey("SenderId");
+
+                    b.Navigation("Receiver");
 
                     b.Navigation("Sender");
                 });
