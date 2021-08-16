@@ -87,7 +87,7 @@
             {
                 var favorite = this.data
                     .Favorites
-                    .Where(f => f.CustomerId == info.UserId && f.ListingId == info.ListingId)
+                    .Where(f => f.UserId == info.UserId && f.ListingId == info.ListingId)
                     .FirstOrDefault();
 
                 if (favorite != null)
@@ -100,7 +100,7 @@
             {
                 var favorite = new Favorite
                 {
-                    CustomerId = info.UserId,
+                    UserId = info.UserId,
                     ListingId = info.ListingId,
                 };
 
@@ -185,7 +185,7 @@
             var isFavorite = false;
             var favorite = this.data
                 .Favorites
-                .Where(x => x.CustomerId == this.User.GetId() && x.ListingId == listing.Id)
+                .Where(x => x.UserId == this.User.GetId() && x.ListingId == listing.Id)
                 .FirstOrDefault();
 
             if (favorite != null)

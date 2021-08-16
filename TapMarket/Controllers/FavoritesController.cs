@@ -27,7 +27,7 @@
         {
             var favorites = this.data
                 .Favorites
-                .Where(f => f.CustomerId == this.User.GetId())
+                .Where(f => f.UserId == this.User.GetId())
                 .ToList();
 
             var listings = new List<ListingViewModel>();
