@@ -122,8 +122,8 @@
                             <div class="form-group">
                                 <input class="btn btn-lg btn-block btn-success" type="button" value="Call" onclick="return change(this);" />
 
-                                <input class="btn btn-lg btn-block btn-info" type="button" value="Message" />
-
+                                <a class="btn btn-lg btn-block btn-info" type="button" href="#message">Message</a>
+                               
                                 <script type="text/javascript">
                                 function change(el)
                                 {
@@ -143,7 +143,7 @@
 
         @if (this.User.Identity.Name != user.Email)
         {
-            <div class="col-md-8" style="margin-top:15px">
+            <div id="message" class="col-md-8" style="margin-top:15px">
                 <div class="card">
                     <div class="row">
                         <div class=" col-sm-12">

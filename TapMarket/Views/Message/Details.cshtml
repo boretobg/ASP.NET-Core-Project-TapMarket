@@ -1,54 +1,46 @@
-﻿@model TapMarket.Models.Message.MessageDetailsFormModel
+﻿@using Microsoft.AspNetCore.Identity
+@using TapMarket.Data.Models
 
-@{ var messages = ViewBag.Messages;
-                var senderId = ViewBag.SenderId;
-                var receiverId = ViewBag.ReceiverId; }
+@model TapMarket.Models.Message.MessageDetailsFormModel
 
-<div>
-    <div class="padding">
-        <div class="row container justify-content-center">
-            <div class="col-md-12">
-                <div class="card card-bordered">
-                    <form method="post">
-                        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:500px !important;">
-                            @foreach (var message in messages)
-                            {
-                                @if (message.ReceiverId == senderId)
-                                {
-                                    <div class="media media-chat">
-                                        @*<img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">*@
-                                        <div class="media-body">
-                                            <p>@message.Text</p>
-                                            <p class="meta"><time>@message.SentOn</time></p>
-                                        </div>
-                                    </div> 
-                                }
-                                else
-                                {
-                                    <div class="media media-chat media-chat-reverse">
-                                        <div class="media-body">
-                                            <p>@message.Text</p>
-                                            <p class="meta"><time>@message.SentOn</time></p>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        </div>
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
-                        <div class="publisher bt-1 border-light">
-                            <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+@{ 
+    var contents = ViewBag.Content;
+    var senderId = ViewBag.SenderId;
+    var receiverId = ViewBag.ReceiverId;
+    var messageId = ViewBag.MessageId; 
+}
 
-                            <input type="hidden" asp-for="ReceiverId" value="@receiverId" />
-                            <input type="hidden" asp-for="UserId" value="@senderId" />
-
-                            <input asp-for="Message" class="publisher-input" type="text" placeholder="Write something">
-                        </div>
-
-                    </form>
-                </div>
+<div class="card offset-2 col-8">
+    <form method="post">
+        @foreach (var content in contents)
+        {
+            @if (content.SenderId == senderId)
+            {
+            <div class="card col-5 offset-7" style="margin-top:5px">
+                <h6 style="margin-top:10px">@content.Text</h6>
+                <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
+            </div> 
+            }
+            else
+            {
+            <div class="card col-5" style="margin-top:5px;margin-bottom:5px">
+                <h6 style="margin-top:10px">@content.Text</h6>
+                <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
             </div>
-        </div>
-    </div>
-</div>
+            }
+        }
 
+        <div class="card" style="margin-bottom:10px">
+
+            <input type="hidden" asp-for="ReceiverId" value="@receiverId" />
+            <input type="hidden" asp-for="UserId" value="@senderId" />
+            <input type="hidden" asp-for="Id" value="@messageId" />
+
+            <input asp-for="Message" class="publisher-input" type="text" placeholder="Write something">
+        </div>
+    </form>
+</div>
 
