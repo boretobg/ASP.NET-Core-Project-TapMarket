@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using TapMarket.Data.Models;
-
-namespace TapMarket.Data
+﻿namespace TapMarket.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using TapMarket.Data.Models;
+
     public class TapMarketDbContext : IdentityDbContext
     {
         public TapMarketDbContext(DbContextOptions<TapMarketDbContext> options)
@@ -17,6 +16,7 @@ namespace TapMarket.Data
         public DbSet<User> User { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageContent> MessageContents { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -48,10 +48,10 @@ namespace TapMarket.Data
                 .HasColumnType("decimal(18,0)");
 
             builder
-                .Entity<Message>()
-                .HasOne(m => m.Sender)
-                .WithMany(s => s.Messages)
-                .HasForeignKey(m => m.SenderId);
+               .Entity<Message>()
+               .HasOne(m => m.Sender)
+               .WithMany(s => s.Messages)
+               .HasForeignKey(m => m.SenderId);
 
             base.OnModelCreating(builder);
         }

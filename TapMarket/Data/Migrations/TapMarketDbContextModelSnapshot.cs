@@ -341,6 +341,28 @@ namespace TapMarket.Data.Migrations
                     b.Property<string>("SenderId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("TapMarket.Data.Models.MessageContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("SentOn")
                         .HasColumnType("datetime2");
 
@@ -351,11 +373,9 @@ namespace TapMarket.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiverId");
+                    b.HasIndex("MessageId");
 
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
+                    b.ToTable("MessageContents");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.User", b =>
@@ -501,6 +521,13 @@ namespace TapMarket.Data.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("TapMarket.Data.Models.MessageContent", b =>
+                {
+                    b.HasOne("TapMarket.Data.Models.Message", null)
+                        .WithMany("Content")
+                        .HasForeignKey("MessageId");
+                });
+
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
                 {
                     b.Navigation("Listings");
@@ -514,6 +541,11 @@ namespace TapMarket.Data.Migrations
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
                 {
                     b.Navigation("Favorites");
+                });
+
+            modelBuilder.Entity("TapMarket.Data.Models.Message", b =>
+                {
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.User", b =>
