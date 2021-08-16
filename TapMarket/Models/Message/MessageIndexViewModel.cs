@@ -6,6 +6,8 @@
 
     public class MessageIndexViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [Url]
         public string ReceiverPictureUrl { get; set; }
