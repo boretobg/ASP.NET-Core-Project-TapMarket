@@ -15,7 +15,7 @@
     {
         private readonly TapMarketDbContext data;
 
-        public ListingController(TapMarketDbContext data) 
+        public ListingController(TapMarketDbContext data)
             => this.data = data;
 
 
@@ -109,18 +109,34 @@
 
             if (info.Message != null)
             {
-                var message = new Message
+                var message = this.data
+                    .Messages
+                    .Where(x => ( x.ReceiverId == info.ReceiverId && x.SenderId == info.UserId)
+                            || x.ReceiverId == info.UserId && x.SenderId == info.ReceiverId)
+                    .FirstOrDefault();
+
+                if (message == null)
                 {
-                    Sender = this.data.User.Where(x => x.Id == info.UserId).FirstOrDefault(),
-                    SenderId = info.UserId,
-                    Receiver = this.data.User.Where(x => x.Id == info.ReceiverId).FirstOrDefault(),
-                    ReceiverId = info.ReceiverId,
-                    Text = info.Message,
-                    SentOn = DateTime.UtcNow
+                    message = new Message
+                    {
+                        Receiver = this.data.User.Where(x => x.Id == info.ReceiverId).FirstOrDefault(),
+                        ReceiverId = info.ReceiverId,
+                        Sender = this.data.User.Where(x => x.Id == info.UserId).FirstOrDefault(),
+                        SenderId = info.UserId
+                    };
+                }
+
+                var messageContent = new MessageContent
+                {
+                   Text = info.Message,
+                   SentOn = DateTime.Now,
+                   SenderId = info.UserId
                 };
 
-                this.data.Messages.Add(message);
+                message.Content.Add(messageContent);
 
+                this.data.MessageContents.Add(messageContent);
+                this.data.Messages.Attach(message);
             }
 
             this.data.SaveChanges();
@@ -176,7 +192,7 @@
             {
                 isFavorite = true;
             }
-            
+
             ViewBag.Listing = listing;
             ViewBag.IsFavorite = isFavorite;
             ViewBag.User = user;
