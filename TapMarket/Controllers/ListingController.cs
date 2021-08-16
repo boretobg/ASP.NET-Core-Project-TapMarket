@@ -87,7 +87,7 @@
             {
                 var favorite = this.data
                     .Favorites
-                    .Where(f => f.CustomerId == info.CustomerId && f.ListingId == info.ListingId)
+                    .Where(f => f.CustomerId == info.UserId && f.ListingId == info.ListingId)
                     .FirstOrDefault();
 
                 if (favorite != null)
@@ -100,11 +100,27 @@
             {
                 var favorite = new Favorite
                 {
-                    CustomerId = info.CustomerId,
+                    CustomerId = info.UserId,
                     ListingId = info.ListingId,
                 };
 
                 this.data.Favorites.Add(favorite);
+            }
+
+            if (info.Message != null)
+            {
+                var message = new Message
+                {
+                    Sender = this.data.User.Where(x => x.Id == info.UserId).FirstOrDefault(),
+                    SenderId = info.UserId,
+                    Receiver = this.data.User.Where(x => x.Id == info.ReceiverId).FirstOrDefault(),
+                    ReceiverId = info.ReceiverId,
+                    Text = info.Message,
+                    SentOn = DateTime.UtcNow
+                };
+
+                this.data.Messages.Add(message);
+
             }
 
             this.data.SaveChanges();
@@ -129,11 +145,13 @@
                     CreatedOn = l.CreatedOn,
                 }).FirstOrDefault();
 
-            var customer = this.data
+            var user = this.data
                 .User
                 .Where(c => c.Listings.Any(l => l.Id == listing.Id))
                 .Select(c => new ProfileListingDetailsViewModel
                 {
+                    Id = c.Id,
+                    Username = $"{c.FirstName} {c.LastName}",
                     Address = c.Address,
                     City = c.City,
                     PhoneNumber = c.PhoneNumber,
@@ -143,7 +161,7 @@
                 }).FirstOrDefault();
 
 
-            if (listing == null || customer == null)
+            if (listing == null || user == null)
             {
                 return Redirect("/Home/Index");
             }
@@ -161,8 +179,8 @@
             
             ViewBag.Listing = listing;
             ViewBag.IsFavorite = isFavorite;
-            ViewBag.Customer = customer;
-            ViewBag.UserId = this.User.GetId();
+            ViewBag.User = user;
+            ViewBag.CurrentUserId = this.User.GetId();
 
             return View();
         }
