@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <img class="card" src="@customer.PictureUrl" width="200" height="200" />
+                                    <img src="@customer.PictureUrl" class="card-img-top" style="height: 12rem;width:15rem" />
                                 </center>
                             </div>
                         </div>
@@ -95,30 +95,28 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <table class="table">
-                                    <thead class="thead-dark">
 
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var listing in listings)
-                                        {
-                                            <tr class="card offset-md-1 col-md-10 col-sm-12">
-                                                <th>
-                                                    <asp:div >
-                                                        <img width="30" class="card-img-top" src="@listing.ImageUrl" />
-                                                    </asp:div>
-                                                </th>
-                                                <th class="text-center font-weight-normal" style="font-size:30px" scope="row">  @listing.Title - <b>$@listing.Price</b></th>
-                                                <th>
-                                                    <a href="/Listing/Details?listingId=@listing.Id" class="btn btn-lg btn-block btn-info">View</a>
-                                                    <a href="/Listing/Edit?listingId=@listing.Id" class="btn btn-lg btn-block btn-warning">Edit</a>
-                                                    <a href="/Listing/Delete?listingId=@listing.Id" class="btn btn-lg btn-block btn-danger"
-                                                       onclick="return confirm('Are you sure you want to delete this listing?')"> Delete </a>
-                                                </th>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                @foreach (var listing in listings)
+                                {
+                                    <div class="card" style="max-width: 580px;margin-bottom:10px">
+                                        <div class="row no-gutters" style="width: 50rem;height: 8rem">
+                                            <div class="col-md-3">
+                                                <img src="@listing.ImageUrl" class="card-img-top" style="height: 8rem">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" style="margin-bottom:2px">@listing.Title - <b>$@listing.Price</b></h5>
+                                                    <div style="margin-top:20px">
+                                                        <a href="/Listing/Details?listingId=@listing.Id" class="btn btn-info">View</a>
+                                                        <a href="/Listing/Edit?listingId=@listing.Id" class="btn btn-warning">Edit</a>
+                                                        <a href="/Listing/Delete?listingId=@listing.Id" class="btn btn-danger"
+                                                           onclick="return confirm('Are you sure you want to delete this listing?')"> Delete </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
 
