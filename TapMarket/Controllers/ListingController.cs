@@ -19,52 +19,59 @@
             => this.data = data;
 
 
-        //public IActionResult Edit(int listingId)
-        //{
-        //    var listing = this.data
-        //        .Listings
-        //        .Where(l => l.Id == listingId)
-        //        .FirstOrDefault();
+        public IActionResult Edit(int listingId)
+        {
+            var listing = this.data
+                .Listings
+                .Where(l => l.Id == listingId)
+                .FirstOrDefault();
 
-        //    if (listing == null)
-        //    {
-        //        return Redirect("/Home/Index");
-        //    }
+            if (listing == null)
+            {
+                return Redirect("/Home/Index");
+            }
 
-        //    return View(new AddListingFormModel
-        //    {
-        //        ImageUrl = listing.ImageUrl,
-        //        Price = listing.Price,
-        //        Description = listing.Description,
-        //        Title = listing.Title,
-        //        CategoryId = listing.CategoryId,
-        //        ConditionId = listing.ConditionId,
-        //        Categories = this.GetCategories(),
-        //        Conditions = this.GetConditions()
-        //    });
-        //}
+            return View(new AddListingFormModel
+            {
+                Id = listing.Id,
+                ImageUrl = listing.ImageUrl,
+                Price = listing.Price,
+                Description = listing.Description,
+                Title = listing.Title,
+                CategoryId = listing.CategoryId,
+                ConditionId = listing.ConditionId,
+                Categories = this.GetCategories(),
+                Conditions = this.GetConditions()
+            });
+        }
 
-        //[HttpPost]
-        //[Authorize]
-        //public IActionResult Edit(AddListingFormModel listing)
-        //{
-        //    var editedListing = new Listing
-        //    {
-        //        Id = listing.Id,
-        //        Title = listing.Title,
-        //        ImageUrl = listing.ImageUrl,
-        //        Description = listing.Description,
-        //        CategoryId = listing.CategoryId,
-        //        Price = listing.Price,
-        //        ConditionId = listing.ConditionId,
-        //        CreatedOn = DateTime.Now
-        //    };
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(AddListingFormModel listing)
+        {
+            this.data.Listings.Remove(this.data
+               .Listings
+               .Where(l => l.Id == listing.TempListingId)
+               .FirstOrDefault());
 
-        //    this.data.Listings.Update(editedListing);
-        //    this.data.SaveChanges();
+            var editedListing = new Listing
+            {
+                Id = listing.Id,
+                Title = listing.Title,
+                ImageUrl = listing.ImageUrl,
+                Description = listing.Description,
+                CategoryId = listing.CategoryId,
+                Price = listing.Price,
+                ConditionId = listing.ConditionId,
+                CreatedOn = DateTime.Now,
+                UserId = this.User.GetId()
+            };
 
-        //    return Redirect($"/Listing/Details?listingId={editedListing.Id}");
-        //}
+            this.data.Listings.Add(editedListing);
+            this.data.SaveChanges();
+
+            return Redirect($"/Listing/Details?listingId={editedListing.Id}");
+        }
 
         public IActionResult ModeratorDelete(int listingId)
         {
