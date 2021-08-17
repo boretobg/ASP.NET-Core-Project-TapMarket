@@ -47,35 +47,37 @@
 
                                     </div>
                                 </div>
+                                <h1 class="card-title"> @listing.Title </h1>
+                                <h3 class="card-title"> <b>$@listing.Price</b></h3>
+
+
+                                <h3>
+                                    @switch (listing.Condition)
+                                    {
+                                        case "New":
+                                            <span href="#" class="badge badge-success"> @listing.Condition condition </span>
+                                            break;
+                                        case "Good":
+                                            <span href="#" class="badge badge-primary"> @listing.Condition condition </span>
+                                            break;
+                                        case "Used":
+                                            <span href="#" class="badge badge-warning"> @listing.Condition condition </span>
+                                            break;
+                                        case "Bad":
+                                            <span href="#" class="badge badge-danger"> @listing.Condition condition </span>
+                                            break;
+                                        case "None":
+                                            <span href="#" class="badge badge-light"> @listing.Condition condition </span>
+                                            break;
+                                    }
+
+
+                                    <span class="badge badge-dark">  @listing.Category </span>
+                                </h3>
+
+                                <h3 class="card-title"> Description</h3>
+                                <p class="card-text">@listing.Description</p>
                             </form>
-                            <h1 class="card-title"> @listing.Title </h1>
-                            <h3 class="card-title"> <b>$@listing.Price</b></h3>
-
-                            <h3>
-                                @switch (listing.Condition)
-                                {
-                                    case "New":
-                                        <a href="#" class="badge badge-success"> @listing.Condition condition </a>
-                                        break;
-                                    case "Good":
-                                        <a href="#" class="badge badge-primary"> @listing.Condition condition </a>
-                                        break;
-                                    case "Used":
-                                        <a href="#" class="badge badge-warning"> @listing.Condition condition </a>
-                                        break;
-                                    case "Bad":
-                                        <a href="#" class="badge badge-danger"> @listing.Condition condition </a>
-                                        break;
-                                    case "None":
-                                        <a href="#" class="badge badge-light"> @listing.Condition condition </a>
-                                        break;
-                                }
-
-                                <a href="#" class="badge badge-dark">  @listing.Category </a>
-                            </h3>
-
-                            <h3 class="card-title"> Description</h3>
-                            <p class="card-text">@listing.Description</p>
 
                         </div>
                     </div>
