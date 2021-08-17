@@ -1,5 +1,6 @@
 ﻿namespace TapMarket.Areas.Identity.Pages.Account
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
@@ -97,7 +98,8 @@
                     City = Input.City,
                     Address = Input.Address,
                     PhoneNumber = Input.PhoneNumber,
-                    PictureUrl = Input.PictureUrl
+                    PictureUrl = Input.PictureUrl,
+                    LastOnline = DateTime.Now
                 };
 
                 var result = await userManager.CreateAsync(user, Input.Password);
