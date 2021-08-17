@@ -57,7 +57,7 @@
         //        CategoryId = listing.CategoryId,
         //        Price = listing.Price,
         //        ConditionId = listing.ConditionId,
-        //        CreatedOn = DateTime.UtcNow
+        //        CreatedOn = DateTime.Now
         //    };
 
         //    this.data.Listings.Update(editedListing);
@@ -241,7 +241,7 @@
                 CategoryId = listing.CategoryId,
                 Price = listing.Price,
                 ConditionId = listing.ConditionId,
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = DateTime.Now,
                 UserId = GetUserId()
             };
 

@@ -88,6 +88,8 @@
             ViewBag.SenderId = senderId;
             ViewBag.ReceiverId = receiverId;
             ViewBag.MessageId = messageId;
+            ViewBag.SenderName = this.data.User.Where(x => x.Id == senderId).Select(x => $"{x.FirstName} {x.LastName}").FirstOrDefault();
+            ViewBag.ReceiverName = this.data.User.Where(x => x.Id == receiverId).Select(x => $"{x.FirstName} {x.LastName}").FirstOrDefault();
 
             return View();
         }
@@ -114,18 +116,21 @@
                     {
                         Id = message.Id,
                         Receiver = receiver,
-                        ReceiverPictureUrl = message.Receiver.PictureUrl
+                        ReceiverPictureUrl = message.Receiver.PictureUrl,
+                        LastOnline = receiver.LastOnline.Date == DateTime.Today ? "Today" : receiver.LastOnline.ToString()
                     });
                 }
                 else
                 {
                     var sender = this.data.User.Where(x => x.Id == message.SenderId).FirstOrDefault();
 
+
                     finalmessages.Add(new MessageIndexViewModel
                     {
                         Id = message.Id,
                         Receiver = sender,
-                        ReceiverPictureUrl = message.Sender.PictureUrl
+                        ReceiverPictureUrl = message.Sender.PictureUrl,
+                        LastOnline = sender.LastOnline.Date == DateTime.Today ? "Today" : sender.LastOnline.ToString()
                     });
                 }
             }

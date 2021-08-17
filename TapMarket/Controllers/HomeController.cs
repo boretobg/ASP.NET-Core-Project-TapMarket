@@ -12,8 +12,6 @@
     using TapMarket.Models.Listing;
     using TapMarket.Services;
 
-    using static WebConstants;
-
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
