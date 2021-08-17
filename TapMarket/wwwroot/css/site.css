@@ -34,7 +34,7 @@ a {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
@@ -133,4 +133,18 @@ body {
     padding: .5rem;
 }
 
+[data-notifications] {
+    position: relative;
+}
 
+    [data-notifications]:after {
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: red;
+        color: red;
+        right: 3px;
+        top: 3px;
+        display: inline-block;
+    }

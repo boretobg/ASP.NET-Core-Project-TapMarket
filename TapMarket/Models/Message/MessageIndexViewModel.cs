@@ -1,6 +1,5 @@
 ﻿namespace TapMarket.Models.Message
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
     using TapMarket.Data.Models;
 
@@ -14,6 +13,6 @@
 
         public User Receiver { get; set; }
 
-        public DateTime LastOnline { get; set; }
+        public string LastOnline { get; set; }
     }
 }
