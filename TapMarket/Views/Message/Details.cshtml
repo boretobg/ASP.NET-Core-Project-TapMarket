@@ -11,25 +11,28 @@
     var senderId = ViewBag.SenderId;
     var receiverId = ViewBag.ReceiverId;
     var messageId = ViewBag.MessageId; 
+    var senderName = ViewBag.SenderName; 
+    var receiverName = ViewBag.ReceiverName; 
 }
 
-<div class="card offset-2 col-8">
+    <h3 class="text-center" style="margin-top:10px">@receiverName</h3>
+<div id="content" onload="scrollWin" class="card offset-2 col-8 overflow-auto">
     <form method="post">
         @foreach (var content in contents)
         {
             @if (content.SenderId == senderId)
             {
-            <div class="card col-5 offset-7" style="margin-top:5px">
-                <h6 style="margin-top:10px">@content.Text</h6>
-                <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
-            </div> 
+                <div class="card col-5 offset-7" style="margin-top:5px">
+                    <h6 style="margin-top:10px">@content.Text</h6>
+                    <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
+                </div>
             }
             else
             {
-            <div class="card col-5" style="margin-top:5px;margin-bottom:5px">
-                <h6 style="margin-top:10px">@content.Text</h6>
-                <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
-            </div>
+                <div class="card col-5" style="margin-top:5px;margin-bottom:5px">
+                    <h6 style="margin-top:10px">@content.Text</h6>
+                    <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
+                </div>
             }
         }
 
@@ -44,3 +47,9 @@
     </form>
 </div>
 
+<script>
+    function scrollWin() {
+        var elmnt = document.getElementById("content");
+        window.scrollTo(0, elmnt.scrollHeight);
+    }
+</script>
