@@ -23,5 +23,7 @@
         public string Message { get; set; }
 
         public int MessageId { get; set; }
+
+        public string Category { get; set; }
     }
 }

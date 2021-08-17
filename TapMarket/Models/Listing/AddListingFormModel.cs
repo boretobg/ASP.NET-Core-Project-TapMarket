@@ -29,6 +29,8 @@
 
         public int CategoryId { get; init; }
 
+        public int TempListingId { get; set; }
+
         public IEnumerable<ListingCategoryViewModel> Categories { get; set; }
 
         public IEnumerable<ListingConditionViewModel> Conditions { get; set; }
