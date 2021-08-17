@@ -357,6 +357,9 @@ namespace TapMarket.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("IsSeen")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MessageId")
                         .HasColumnType("int");
 
