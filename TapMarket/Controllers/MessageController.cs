@@ -1,7 +1,5 @@
 ﻿namespace TapMarket.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,8 +7,8 @@
     using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
     using TapMarket.Models.Message;
-
-    using static TapMarket.Data.DataConstants;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class MessageController : Controller
@@ -19,7 +17,6 @@
 
         public MessageController(TapMarketDbContext data)
             => this.data = data;
-
 
         [Authorize]
         [HttpPost]
@@ -43,7 +40,8 @@
                 {
                     Text = info.Message,
                     SentOn = DateTime.Now,
-                    SenderId = info.UserId
+                    SenderId = info.UserId,
+                    IsSeen = true
                 };
 
                 message.Content.Add(messageContent);
@@ -116,7 +114,7 @@
                     {
                         Id = message.Id,
                         Receiver = receiver,
-                        ReceiverPictureUrl = message.Receiver.PictureUrl,
+                        ReceiverProfileImage = message.Receiver.ProfileImage,
                         LastOnline = receiver.LastOnline.Date == DateTime.Today ? "Today" : receiver.LastOnline.ToString()
                     });
                 }
@@ -129,7 +127,7 @@
                     {
                         Id = message.Id,
                         Receiver = sender,
-                        ReceiverPictureUrl = message.Sender.PictureUrl,
+                        ReceiverProfileImage = message.Sender.ProfileImage,
                         LastOnline = sender.LastOnline.Date == DateTime.Today ? "Today" : sender.LastOnline.ToString()
                     });
                 }

@@ -1,26 +1,31 @@
 ﻿namespace TapMarket.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using TapMarket.Data;
     using TapMarket.Infrastructure;
-    using TapMarket.Models;
     using TapMarket.Models.Home;
     using TapMarket.Models.Listing;
     using TapMarket.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
+    using TapMarket.Data.Models;
 
     public class HomeController : Controller
     {
         private readonly TapMarketDbContext data;
         private readonly IEmailService emailService;
+        private readonly SignInManager<User> signInManager;
 
-        public HomeController(TapMarketDbContext data, IEmailService emailService)
+        public HomeController(
+            TapMarketDbContext data, 
+            IEmailService emailService, 
+            SignInManager<User> signInManager)
         {
             this.data = data;
             this.emailService = emailService;
+            this.signInManager = signInManager;
         }
 
         public IActionResult Success()
@@ -44,7 +49,7 @@
 
                 searchedListings = this.data
                     .Listings
-                    .Where(l => l.Title.ToLower().Contains(homeInfo.SearchInput.ToLower()) 
+                    .Where(l => l.Title.ToLower().Contains(homeInfo.SearchInput.ToLower())
                             || l.Description.ToLower().Contains(homeInfo.SearchInput.ToLower()))
                     .Select(l => new ListingViewModel
                     {
@@ -52,7 +57,7 @@
                         Title = l.Title,
                         Price = l.Price,
                         Condition = l.Condition.Name,
-                        ImageUrl = l.ImageUrl
+                        ListingImage = l.ListingImage
                     })
                     .ToList();
             }
@@ -70,7 +75,7 @@
                         Title = l.Title,
                         Price = l.Price,
                         Condition = l.Condition.Name,
-                        ImageUrl = l.ImageUrl
+                        ListingImage = l.ListingImage
                     })
                     .ToList();
                 }
@@ -81,7 +86,6 @@
 
                 flag = false;
             }
-
 
             if (searchedListings == null || flag)
             {
@@ -108,7 +112,7 @@
                     Title = l.Title,
                     Price = l.Price,
                     Condition = l.Condition.Name,
-                    ImageUrl = l.ImageUrl,
+                    ListingImage = l.ListingImage,
                     CreatedOn = l.CreatedOn
                 })
                 .OrderByDescending(c => c.CreatedOn)
@@ -119,6 +123,28 @@
                 .Where(c => c.Id == this.User.GetId())
                 .FirstOrDefault();
 
+            if (signInManager.IsSignedIn(this.User))
+            {
+                var messages = this.data
+                .Messages
+                .Where(x => x.ReceiverId == customer.Id || x.SenderId == customer.Id)
+                .Select(x => x.Id)
+                .ToList();
+
+                var messageContents = this.data
+                    .MessageContents
+                    .Where(x => messages.Contains(x.MessageId))
+                    .ToList();
+
+                var isSeen = true;
+                if (messageContents.Any(x => x.IsSeen == false))
+                {
+                    isSeen = false;
+                }
+
+                ViewBag.IsSeen = isSeen;
+            }
+            
             ViewBag.Listings = listings;
             ViewBag.Customer = customer;
 
@@ -164,25 +190,22 @@
 
             string subject = info.Subject;
             string content = info.Content;
-            
+
             emailService.SendEmail(senderName, senderEmail, receiverName, receiverEmail, subject, content).Wait();
 
             return Redirect("/Home/Success");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+            => View();
 
         private IEnumerable<ListingCategoryViewModel> GetCategories()
-         => this.data
-            .Categories
-            .Select(c => new ListingCategoryViewModel
-            {
-                Id = c.Id,
-                Name = c.Name
-            }).ToList();
+            => this.data
+                .Categories
+                .Select(c => new ListingCategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList();
     }
 }

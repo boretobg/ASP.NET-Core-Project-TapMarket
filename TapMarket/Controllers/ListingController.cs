@@ -1,7 +1,5 @@
 ﻿namespace TapMarket.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,15 +8,28 @@
     using TapMarket.Infrastructure;
     using TapMarket.Models.Customer;
     using TapMarket.Models.Listing;
+    using TapMarket.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
 
     public class ListingController : Controller
     {
         private readonly TapMarketDbContext data;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IFileService fileService;
 
-        public ListingController(TapMarketDbContext data)
-            => this.data = data;
+        public ListingController(
+            TapMarketDbContext data,
+            IWebHostEnvironment webHostEnvironment,
+            IFileService fileService)
+        {
+            this.data = data;
+            this.webHostEnvironment = webHostEnvironment;
+            this.fileService = fileService;
+        }
 
-
+        [Authorize]
         public IActionResult Edit(int listingId)
         {
             var listing = this.data
@@ -34,21 +45,37 @@
             return View(new AddListingFormModel
             {
                 Id = listing.Id,
-                ImageUrl = listing.ImageUrl,
                 Price = listing.Price,
                 Description = listing.Description,
                 Title = listing.Title,
                 CategoryId = listing.CategoryId,
                 ConditionId = listing.ConditionId,
                 Categories = this.GetCategories(),
-                Conditions = this.GetConditions()
-            });
+                Conditions = this.GetConditions(),
+                }) ;
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult Edit(AddListingFormModel listing)
         {
+            if (!this.data.Categories.Any(c => c.Id == listing.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(listing.CategoryId), "Category does not exist.");
+            }
+            if (!this.data.Conditions.Any(c => c.Id == listing.ConditionId))
+            {
+                this.ModelState.AddModelError(nameof(listing.ConditionId), "Condition does not exist.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                listing.Categories = this.GetCategories();
+                listing.Conditions = this.GetConditions();
+
+                return View(listing);
+            }
+
             this.data.Listings.Remove(this.data
                .Listings
                .Where(l => l.Id == listing.TempListingId)
@@ -58,7 +85,7 @@
             {
                 Id = listing.Id,
                 Title = listing.Title,
-                ImageUrl = listing.ImageUrl,
+                ListingImage = this.fileService.UploadFile(listing.ListingImage),
                 Description = listing.Description,
                 CategoryId = listing.CategoryId,
                 Price = listing.Price,
@@ -118,7 +145,7 @@
             {
                 var message = this.data
                     .Messages
-                    .Where(x => ( x.ReceiverId == info.ReceiverId && x.SenderId == info.UserId)
+                    .Where(x => (x.ReceiverId == info.ReceiverId && x.SenderId == info.UserId)
                             || x.ReceiverId == info.UserId && x.SenderId == info.ReceiverId)
                     .FirstOrDefault();
 
@@ -135,9 +162,9 @@
 
                 var messageContent = new MessageContent
                 {
-                   Text = info.Message,
-                   SentOn = DateTime.Now,
-                   SenderId = info.UserId
+                    Text = info.Message,
+                    SentOn = DateTime.Now,
+                    SenderId = info.UserId
                 };
 
                 message.Content.Add(messageContent);
@@ -161,7 +188,7 @@
                     Id = l.Id,
                     Title = l.Title,
                     Price = l.Price,
-                    ImageUrl = l.ImageUrl,
+                    ListingImage = l.ListingImage,
                     Description = l.Description,
                     Category = l.Category.Name,
                     Condition = l.Condition.Name,
@@ -178,9 +205,9 @@
                     Address = c.Address,
                     City = c.City,
                     PhoneNumber = c.PhoneNumber,
-                    PictureUrl = c.PictureUrl,
                     ListingId = listing.Id,
-                    Email = c.Email
+                    Email = c.Email,
+                    ProfileImage = c.ProfileImage
                 }).FirstOrDefault();
 
 
@@ -243,7 +270,7 @@
             {
                 Id = listing.Id,
                 Title = listing.Title,
-                ImageUrl = listing.ImageUrl,
+                ListingImage = this.fileService.UploadFile(listing.ListingImage),
                 Description = listing.Description,
                 CategoryId = listing.CategoryId,
                 Price = listing.Price,
@@ -258,7 +285,6 @@
             return Redirect("/Listing/CreatedListing");
         }
 
-        [Authorize]
         public IActionResult CreatedListing()
             => View();
 
@@ -281,13 +307,11 @@
             }).ToList();
 
         private string GetUserId()
-        {
-            return this.data
+            => this.data
                 .User
                 .Where(c => c.Id == this.User.GetId())
                 .Select(c => c.Id)
                 .FirstOrDefault();
-        }
 
         private void DeleteListing(int listingId)
         {

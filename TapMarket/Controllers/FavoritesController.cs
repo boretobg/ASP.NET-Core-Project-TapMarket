@@ -1,26 +1,20 @@
 ﻿namespace TapMarket.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
     using TapMarket.Data;
-    using TapMarket.Data.Models;
     using TapMarket.Infrastructure;
     using TapMarket.Models.Listing;
     using TapMarket.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     public class FavoritesController : Controller
     {
         private readonly TapMarketDbContext data;
-        private readonly IListingService listingService;
 
-        public FavoritesController(TapMarketDbContext data, IListingService listingService)
-        {
-            this.data = data;
-            this.listingService = listingService;
-        }
-
+        public FavoritesController(TapMarketDbContext data) 
+            => this.data = data;
 
         [Authorize]
         public IActionResult All()
@@ -41,7 +35,7 @@
                     { 
                         Id = l.Id,
                         Title = l.Title,
-                        ImageUrl = l.ImageUrl,
+                        ListingImage = l.ListingImage,
                         Condition = l.Condition.Name,
                         Price = l.Price
                     })
