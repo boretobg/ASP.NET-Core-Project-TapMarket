@@ -24,8 +24,7 @@
         [Column(TypeName = "decimal(18, 0)")]
         public decimal Price { get; set; }
 
-        [Required]
-        public string ImageUrl { get; set; }
+        public string ListingImage { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
