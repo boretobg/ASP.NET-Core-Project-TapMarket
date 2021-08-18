@@ -16,6 +16,7 @@
            string content)
         {
             var apiKey = Environment.GetEnvironmentVariable("TAP_MARKET_API");
+
             var client = new SendGridClient(apiKey);
 
             var from = new EmailAddress(senderAddres, senderName);
