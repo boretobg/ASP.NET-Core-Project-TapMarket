@@ -1,14 +1,14 @@
 ﻿namespace TapMarket.Infrastructure
 {
-    using Microsoft.AspNetCore.Builder;
-    using TapMarket.Data;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.EntityFrameworkCore;
-    using TapMarket.Data.Models;
-    using System.Linq;
     using System;
-    using Microsoft.AspNetCore.Identity;
+    using System.Linq;
     using System.Threading.Tasks;
+    using TapMarket.Data;
+    using TapMarket.Data.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Builder;
 
     using static WebConstants;
 
@@ -30,6 +30,7 @@
 
             return app;
         }
+
         private static void MigrateDatabase(IServiceProvider services)
         {
             var data = services.GetRequiredService<TapMarketDbContext>();

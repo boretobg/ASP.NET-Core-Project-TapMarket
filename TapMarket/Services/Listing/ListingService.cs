@@ -7,7 +7,7 @@
 
     public class ListingService : IListingService
     {
-        private TapMarketDbContext data;
+        private readonly TapMarketDbContext data;
 
         public ListingService(TapMarketDbContext data) 
             => this.data = data;
@@ -24,7 +24,7 @@
                     Title = l.Title,
                     Price = l.Price,
                     Condition = l.Condition.Name,
-                    ImageUrl = l.ImageUrl
+                    ListingImage = l.ListingImage
                 }).ToList();
 
             return listings;
