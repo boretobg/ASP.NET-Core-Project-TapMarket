@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <img src="@customer.PictureUrl" class="card-img-top" style="height: 12rem;width:15rem" />
+                                    <img src="~/Images/@customer.ProfileImage" asp-append-version="true" class="img-fluid" width="250" style="display:block;margin-left:auto;margin-right:auto" />
                                 </center>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-lg btn-block btn-warning">Manage account</a>
+                                    <a asp-controller="User" asp-action="Manage" title="Manage" class="btn btn-lg btn-block btn-warning">Manage account</a>
                                 </div>
                             </div>
 
@@ -101,7 +101,7 @@
                                     <div class="card" style="max-width: 580px;margin-bottom:10px">
                                         <div class="row no-gutters" style="width: 50rem;height: 8rem">
                                             <div class="col-md-3">
-                                                <img src="@listing.ImageUrl" class="card-img-top" style="height: 8rem">
+                                                <img src="~/Images/@listing.ListingImage" class="card-img-top" style="height: 8rem">
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="card-body">

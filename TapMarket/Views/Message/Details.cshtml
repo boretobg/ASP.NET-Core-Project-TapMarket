@@ -6,24 +6,28 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@{ 
+@{
     var contents = ViewBag.Content;
     var senderId = ViewBag.SenderId;
     var receiverId = ViewBag.ReceiverId;
-    var messageId = ViewBag.MessageId; 
-    var senderName = ViewBag.SenderName; 
-    var receiverName = ViewBag.ReceiverName; 
+    var messageId = ViewBag.MessageId;
+    var senderName = ViewBag.SenderName;
+    var receiverName = ViewBag.ReceiverName;
 }
 
-    <h3 class="text-center" style="margin-top:10px">@receiverName</h3>
-<div id="content" onload="scrollWin" class="card offset-2 col-8 overflow-auto">
+<h2 class="text-center" style="margin-top:10px">Your chat with @receiverName</h2>
+<br />
+
+<div id="content" onload="scrollWin" style="border: solid; border-color: #5bc0de" class="card offset-2 col-8 overflow-auto">
     <form method="post">
         @foreach (var content in contents)
         {
             @if (content.SenderId == senderId)
             {
-                <div class="card col-5 offset-7" style="margin-top:5px">
+                <div class="card col-5 offset-7" style="margin-top:10px">
                     <h6 style="margin-top:10px">@content.Text</h6>
+                </div>
+                <div class="offset-7 float-right">
                     <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
                 </div>
             }
@@ -31,18 +35,20 @@
             {
                 <div class="card col-5" style="margin-top:5px;margin-bottom:5px">
                     <h6 style="margin-top:10px">@content.Text</h6>
+                </div>
+                <div >
                     <p style="font-size:12px" class="meta"><time>@content.SentOn</time></p>
                 </div>
             }
         }
 
-        <div class="card" style="margin-bottom:10px">
+        <div style="margin-bottom:10px">
 
             <input type="hidden" asp-for="ReceiverId" value="@receiverId" />
             <input type="hidden" asp-for="UserId" value="@senderId" />
             <input type="hidden" asp-for="Id" value="@messageId" />
 
-            <input asp-for="Message" class="publisher-input" type="text" placeholder="Write something">
+            <input asp-for="Message" class="form-control" rows="1" style="resize:none;margin-top:10px" placeholder="Write something"/>
         </div>
     </form>
 </div>
