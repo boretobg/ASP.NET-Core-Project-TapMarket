@@ -15,7 +15,7 @@
            string subject, 
            string content)
         {
-            var apiKey = Environment.GetEnvironmentVariable("API_TAP_MARKET");
+            var apiKey = Environment.GetEnvironmentVariable("TM_API"); 
 
             var client = new SendGridClient(apiKey);
 

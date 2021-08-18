@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace TapMarket.Services
+﻿namespace TapMarket.Services
 {
+    using System.Threading.Tasks;
+
     public interface IEmailService
     {
         public Task SendEmail(
