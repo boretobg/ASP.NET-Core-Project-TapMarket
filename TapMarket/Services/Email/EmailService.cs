@@ -1,9 +1,9 @@
 ﻿namespace TapMarket.Services
 {
-    using SendGrid;
-    using SendGrid.Helpers.Mail;
     using System;
     using System.Threading.Tasks;
+    using SendGrid;
+    using SendGrid.Helpers.Mail;
 
     public class EmailService : IEmailService
     {
