@@ -4,10 +4,13 @@
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using TapMarket.Data.Models;
+    using TapMarket.Services;
 
     using static Data.DataConstants.User;
 
@@ -16,13 +19,19 @@
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IFileService fileService;
 
         public RegisterModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IWebHostEnvironment webHostEnvironment,
+            IFileService fileService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.webHostEnvironment = webHostEnvironment;
+            this.fileService = fileService;
         }
 
         [BindProperty]
@@ -73,9 +82,7 @@
                 ErrorMessage = "{0} must be between {2} and {1} characters.")]
             public string Address { get; set; }
 
-            [Required]
-            [Url]
-            public string PictureUrl { get; set; }
+            public IFormFile ProfileImage { get; set; }
         }
 
         public void OnGetAsync(string returnUrl = null)
@@ -98,8 +105,8 @@
                     City = Input.City,
                     Address = Input.Address,
                     PhoneNumber = Input.PhoneNumber,
-                    PictureUrl = Input.PictureUrl,
-                    LastOnline = DateTime.Now
+                    LastOnline = DateTime.Now,
+                    ProfileImage = this.fileService.UploadFile(Input.ProfileImage)
                 };
 
                 var result = await userManager.CreateAsync(user, Input.Password);
@@ -118,5 +125,7 @@
 
             return Page();
         }
+
+
     }
 }

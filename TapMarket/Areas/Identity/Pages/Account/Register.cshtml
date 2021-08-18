@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="offset-md-3 col-md-6 col-sm-12">
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
 
                 <h1 style="text-align:center">@ViewData["Title"]</h1>
                 <h4 style="text-align:center"> Create a new account.</h4>
@@ -64,9 +64,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Input.PictureUrl">PictureUrl</label>
-                    <input asp-for="Input.PictureUrl" class="form-control" placeholder="Image URL" />
-                    <span asp-validation-for="Input.PictureUrl" class="text-danger"></span>
+                    <label asp-for="Input.ProfileImage">PictureUrl</label>
+                    <input asp-for="Input.ProfileImage" class="form-control" placeholder="Image URL" multiple />
+                    <span asp-validation-for="Input.ProfileImage" class="text-danger"></span>
                 </div>
 
                 <button type="submit" class="btn btn-info">Register</button>
