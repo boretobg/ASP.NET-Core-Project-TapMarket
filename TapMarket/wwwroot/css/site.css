@@ -148,3 +148,9 @@ body {
         top: 3px;
         display: inline-block;
     }
+
+.fit-image {
+    width: 100%;
+    object-fit: cover;
+    height: 300px; /* only if you want fixed height */
+}

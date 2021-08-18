@@ -1,5 +1,10 @@
 namespace TapMarket
 {
+    using TapMarket.Data;
+    using TapMarket.Data.Models;
+    using TapMarket.Infrastructure;
+    using TapMarket.Services;
+    using TapMarket.Services.File;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -7,17 +12,11 @@ namespace TapMarket
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using TapMarket.Data;
-    using TapMarket.Data.Models;
-    using TapMarket.Infrastructure;
-    using TapMarket.Services;
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) 
+            => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
@@ -40,11 +39,11 @@ namespace TapMarket
                 .AddEntityFrameworkStores<TapMarketDbContext>();
 
             services.AddControllersWithViews();
-            services.AddSignalR();
 
             services
                 .AddTransient<IListingService, ListingService>()
-                .AddTransient<IEmailService, EmailService>();
+                .AddTransient<IEmailService, EmailService>()
+                .AddTransient<IFileService, FileService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,6 +75,5 @@ namespace TapMarket
                     endpoints.MapRazorPages();
                 });
         }
-
     }
 }
