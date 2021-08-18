@@ -1,8 +1,8 @@
 ﻿namespace TapMarket.Data
 {
+    using TapMarket.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using TapMarket.Data.Models;
 
     public class TapMarketDbContext : IdentityDbContext
     {
