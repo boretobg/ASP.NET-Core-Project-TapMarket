@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using TapMarket.Models.Listing;
-
-namespace TapMarket.Models.Customer
+﻿namespace TapMarket.Models.Customer
 {
+    using System.Collections.Generic;
+    using TapMarket.Models.Listing;
+
     public class ProfileViewModel
     {
         public string FirstName { get; set; }
@@ -15,7 +15,7 @@ namespace TapMarket.Models.Customer
 
         public string PhoneNumber { get; set; }
 
-        public string PictureUrl { get; set; }
+        public string ProfileImage { get; set; }
 
         public IEnumerable<ListingViewModel> Listings { get; set; } = new List<ListingViewModel>();
     }

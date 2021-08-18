@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace TapMarket.Models.Listing
+﻿namespace TapMarket.Models.Listing
 {
+    using System;
+
     public class ListingViewModel
     {
         public int Id { get; set; }
@@ -10,7 +10,7 @@ namespace TapMarket.Models.Listing
 
         public decimal Price { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ListingImage { get; set; }
 
         public string Condition { get; set; }
 

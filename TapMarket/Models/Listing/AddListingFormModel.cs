@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Http;
 
     using static Data.DataConstants.Listing;
 
@@ -15,8 +16,7 @@
         public string Title { get; init; }
 
         [Required]
-        [Url]
-        public string ImageUrl { get; init; }
+        public IFormFile ListingImage { get; set; }
 
         [Required]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength,

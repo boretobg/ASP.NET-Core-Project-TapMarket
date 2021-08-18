@@ -1,5 +1,7 @@
 ﻿namespace TapMarket.Models.Customer
 {
+    using Microsoft.AspNetCore.Http;
+
     public class ProfileListingDetailsViewModel
     {
         public string Id { get; set; }
@@ -14,7 +16,7 @@
 
         public string PhoneNumber { get; set; }
 
-        public string PictureUrl { get; set; }
+        public string ProfileImage { get; set; }
 
         public int ListingId { get; set; }
     }

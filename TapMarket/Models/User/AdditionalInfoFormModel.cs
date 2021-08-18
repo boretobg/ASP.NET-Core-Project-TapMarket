@@ -1,6 +1,7 @@
 ﻿namespace TapMarket.Models.Customer
 {
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Http;
 
     using static Data.DataConstants.User;
 
@@ -26,7 +27,6 @@
         public string City { get; set; }
 
         [Required]
-        [Url]
-        public string PictureUrl { get; set; }
+        public IFormFile ProfileImage { get; set; }
     }
 }
