@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TapMarket.Data.Migrations
 {
-    public partial class MessageContent : Migration
+    public partial class FinalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace TapMarket.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     City = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastOnline = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -221,7 +221,7 @@ namespace TapMarket.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 10000, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ListingImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ConditionId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -258,7 +258,8 @@ namespace TapMarket.Data.Migrations
                     Text = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     SentOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SenderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MessageId = table.Column<int>(type: "int", nullable: true)
+                    MessageId = table.Column<int>(type: "int", nullable: false),
+                    IsSeen = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -268,7 +269,7 @@ namespace TapMarket.Data.Migrations
                         column: x => x.MessageId,
                         principalTable: "Messages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,14 +279,14 @@ namespace TapMarket.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ListingId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Favorites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favorites_AspNetUsers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Favorites_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -337,14 +338,14 @@ namespace TapMarket.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorites_CustomerId",
-                table: "Favorites",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Favorites_ListingId",
                 table: "Favorites",
                 column: "ListingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorites_UserId",
+                table: "Favorites",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Listings_CategoryId",

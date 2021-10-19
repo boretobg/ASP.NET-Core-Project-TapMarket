@@ -15,7 +15,8 @@
            string subject, 
            string content)
         {
-            var apiKey = Environment.GetEnvironmentVariable("TM_API"); 
+            //var apiKey = Environment.GetEnvironmentVariable("TM_API"); 
+            var apiKey = "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";
 
             var client = new SendGridClient(apiKey);
 

@@ -10,8 +10,8 @@ using TapMarket.Data;
 namespace TapMarket.Data.Migrations
 {
     [DbContext(typeof(TapMarketDbContext))]
-    [Migration("20210816155613_MessageContent")]
-    partial class MessageContent
+    [Migration("20210819114913_FinalMigration")]
+    partial class FinalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -268,17 +268,17 @@ namespace TapMarket.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
                     b.HasIndex("ListingId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Favorites");
                 });
@@ -304,8 +304,7 @@ namespace TapMarket.Data.Migrations
                         .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
+                    b.Property<string>("ListingImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -359,7 +358,10 @@ namespace TapMarket.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MessageId")
+                    b.Property<bool>("IsSeen")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MessageId")
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
@@ -407,8 +409,7 @@ namespace TapMarket.Data.Migrations
                     b.Property<DateTime>("LastOnline")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PictureUrl")
-                        .IsRequired()
+                    b.Property<string>("ProfileImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("User");
@@ -467,19 +468,19 @@ namespace TapMarket.Data.Migrations
 
             modelBuilder.Entity("TapMarket.Data.Models.Favorite", b =>
                 {
-                    b.HasOne("TapMarket.Data.Models.User", "Customer")
-                        .WithMany("Favorites")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("TapMarket.Data.Models.Listing", "Listing")
                         .WithMany("Favorites")
                         .HasForeignKey("ListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.HasOne("TapMarket.Data.Models.User", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Listing");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Listing", b =>
@@ -525,9 +526,13 @@ namespace TapMarket.Data.Migrations
 
             modelBuilder.Entity("TapMarket.Data.Models.MessageContent", b =>
                 {
-                    b.HasOne("TapMarket.Data.Models.Message", null)
+                    b.HasOne("TapMarket.Data.Models.Message", "Message")
                         .WithMany("Content")
-                        .HasForeignKey("MessageId");
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("TapMarket.Data.Models.Category", b =>
